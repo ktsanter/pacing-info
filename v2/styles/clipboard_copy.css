@@ -1,0 +1,10 @@
+/*-------------------------------------------------------------------*/
+ /* styling for clipboard_copy library                                  */
+ /*------------------------------------------------------------------*/
+
+/*-- rendered copy style --*/
+#copyRenderedTarget {
+  color: black;
+  background-color: white;
+}
+/*-- end of rendered copy style --*/

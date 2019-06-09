@@ -1,0 +1,67 @@
+/*-------------------------------------------------------------------*/
+ /* styling for standard shell app                                   */
+ /*------------------------------------------------------------------*/
+
+/*----------------------------------*/
+/* Michigan Virtual brand standards */
+/* light teal:  #2f8d98             */
+/* dark teal:   #115e6e             */
+/* deep teal:   #093c44             */
+/* green:       #b5cd34             */
+/* orange:      #b5cd34             */
+/* light gray:  #6d6e71             */
+/* dark gray:   #414042             */
+/*----------------------------------*/
+body {
+	color: black;
+	background-color: #eee;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-size: 13px;
+}
+
+.standard-title {
+	color: white;
+	background-color: #093c44;
+  border: 1px solid white;
+  border-radius: 6px;
+  font-size: 1.2em;
+  padding-left: 0.4em;
+  margin-top: 0em;
+  margin-bottom: 0.4em;
+}
+
+.standard-contents {}
+
+.standard-section {
+  margin-bottom: 2.0em;
+}
+
+.standard-section-label {
+  color: #093c44;
+  background-color: white;
+  border: 1px solid #093c44;
+  border-radius: 6px;
+  font-size: 1em;
+  padding-left: 0.4em;
+  margin-top: 0.4em;
+}
+
+.standard-section-contents {
+  margin-top: 0.4em;
+}
+
+.standard-button {
+  display: inline-block;
+}
+
+/*-- Markdown example --*/
+#outputMarkdown {
+  display: inline-block;
+  border: 1px solid black;
+  padding-left: 0.4em;
+  padding-right: 0.4em;
+  min-width: 4em;
+  min-height: 1.4em;
+  margin-top: 0.1em;
+}
+/*-- end of Markdown example --*/
