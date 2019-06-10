@@ -173,8 +173,10 @@ class CreateElement {
     }
     
     if (headers) {
+      var thead = CreateElement._createElement('thead', null, null);
+      table.appendChild(thead);
       var tr = CreateElement._createElement('tr', null, null);
-      table.appendChild(tr);
+      thead.appendChild(tr);
       for (var i = 0; i < headers.length; i++) {
         var th = CreateElement._createElement('th', null, null);
         th.innerHTML = headers[i];
@@ -183,9 +185,11 @@ class CreateElement {
     }
     
     if (contents) {
+      var tbody = CreateElement._createElement('tbody', null, null);
+      table.appendChild(tbody);
       for (var i = 0; i < contents.length; i++) {
         var tr = CreateElement._createElement('tr', null, null);
-        table.appendChild(tr);
+        tbody.appendChild(tr);
         for (var j = 0; j < contents[i].length; j++) {
           var td = CreateElement._createElement('td', null, null);
           td.innerHTML = contents[i][j];

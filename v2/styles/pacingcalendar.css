@@ -6,20 +6,24 @@
 }
 
 .calendar-label {
+  font-size: 1.0em;
   font-weight: bold;
   margin-bottom: 0.4em;
+  border-radius: 8px 8px 0px 0px;
+  color: white;
+  background-color: #2f8d98;
+  padding: 0.3em;
+  text-align: center;
 }
 
 #pacingCalendar {
-  border: 1px solid black;
-  border-collapse: collapse;
+  font-size: 0.9em;
+  margin-bottom: 0px;
+  text-align: center;
 }
 
-.calendar-table th, td {
-  border: 1px solid black;
+#pacingCalendar th {
   text-align: center;
-  padding-left: 0.3em;
-  padding-right: 0.3em;
 }
 
 .highlightweek {

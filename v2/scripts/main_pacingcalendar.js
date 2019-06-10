@@ -102,14 +102,14 @@ const app = function () {
 
     var terms = ['semester1', 'semester2', 'trimester1', 'trimester2', 'trimester3', 'summer'];
     for (var i = 0; i < terms.length; i++) {
-      container.appendChild(CreateElement.createRadio(null, null, 'termRadio', terms[i], terms[i], i == 0, _handleRadio));
+      container.appendChild(CreateElement.createRadio(null, 'calendar-control', 'termRadio', terms[i], terms[i], i == 0, _handleRadio));
     }
 
     container.appendChild(CreateElement.createBR());
-    container.appendChild(CreateElement.createCheckbox('apCheckbox', null, '', 'ap', 'AP', false, _handleCheckbox));
+    container.appendChild(CreateElement.createCheckbox('apCheckbox', 'calendar-control', '', 'ap', 'AP', false, _handleCheckbox));
     
     container.appendChild(CreateElement.createBR());
-    container.appendChild(CreateElement.createCheckbox('highlightCheckbox', null, '', 'highlightWeek', 'highlight current week', true, _handleCheckbox));
+    container.appendChild(CreateElement.createCheckbox('highlightCheckbox', 'calendar-control', '', 'highlightWeek', 'highlight current week', true, _handleCheckbox));
 
     return container;
   }
