@@ -196,4 +196,27 @@ class CreateElement {
     
     return table;
   }
+  
+   static createTableRow(id, classList, attachTo) {
+    var elem = CreateElement._createElement('tr', id, classList);
+    
+    if (attachTo) attachTo.appendChild(elem);
+    
+    return elem;
+  }
+  
+   static createTableCell(id, classList, contents, isHeader, attachTo) {
+    var elem;
+    if (isHeader) {
+      elem = CreateElement._createElement('th', id, classList);
+    } else {
+      elem = CreateElement._createElement('td', id, classList);
+    }
+    
+    elem.innerHTML = contents;
+    
+    if (attachTo) attachTo.appendChild(elem);
+    
+    return elem;
+  }  
 }
