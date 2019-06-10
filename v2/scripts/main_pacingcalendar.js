@@ -15,7 +15,7 @@ const app = function () {
     apibase: 'https://script.google.com/macros/s/AKfycbzp-DIszFmZMUasJwHnzwcQ9VE3NmI2QmbUvawRMq8fnDfuBCQ/exec',
     apikey: 'MVpacinginfov2'
   };
-  
+    
 	//---------------------------------------
 	// get things going
 	//----------------------------------------
@@ -24,21 +24,11 @@ const app = function () {
 
     _renderStandardElements();
 		
-    var expectedQueryParams = [
-      {key: 'term', required: true}, 
-      {key: 'ap', required: false},
-      {key: 'highlightweek', required: false}
-    ];
+    var expectedQueryParams = [];
     
 		if (_initializeSettings(expectedQueryParams)) {
-      console.log('|' + settings.ap + '|');
-      settings.ap = (settings.ap != null) ? 'true' : 'false';
-      if (settings.highlightweek) settings.highlightweek = new Date(settings.highlightweek);
-
-      var data = await _loadPacingCalendarData();
-      if (data) {
-        page.body.appendChild(_renderPage(data));
-      }
+      settings.calendardata = await _loadPacingCalendarData();
+      _renderPage();
 		}
   }
   
@@ -46,7 +36,7 @@ const app = function () {
     var result = null;
     
     page.notice.setNotice('loading...', true);
-    var requestParams = {term: settings.term, ap: settings.ap};
+    var requestParams = {};
     var requestResult = await googleSheetWebAPI.webAppGet(apiInfo, 'pacingcalendar', requestParams, page.notice);
 
     if (requestResult.success) {
@@ -98,49 +88,74 @@ const app = function () {
     
     page.notice = new StandardNotice(page.body, title);
   }
-
-  function _renderPage(calendarData) {
-    var container = CreateElement.createDiv(null, null);
-    var termData = getTermCalendarData(settings.term, calendarData);
-    console.log(JSON.stringify(termData));
+  
+  function _renderPage() {
+    page.body.appendChild(_renderControls());
     
-    var headers;
-    var cells;
-    if (settings.ap == 'true') {
-      container.innerHTML = 'show AP dates';
-    } else {
-      container.innerHTML = 'show regular dates';
-      var startMsg1 = 'Start: ' + termData['1'].startdate;
-      var endMsg1 = 'End: ' + termData['1'].enddate;
-      var startMsg2 = 'Start: ' + termData['2'].startdate;
-      var endMsg2 = 'End: ' + termData['2'].enddate;
-      headers = ['Date (Monday)', startMsg1 + endMsg1, startMsg2 + endMsg2];
-      var cells = [];
-    }
-
-    container.appendChild(CreateElement.createTable(null, null, headers, cells));
-    /// is formatDate in a library
-    
-    return container;
-  }
-       
-	//------------------------------------------------------------------
-	// data processing
-	//------------------------------------------------------------------    
-  function getTermCalendarData(term, calendarData) {
-    var termData = {};
-    for (var i = 0; i < calendarData.length; i++) {
-      if (calendarData[i].term.toLowerCase() == term) {
-        termData[calendarData[i].starttype] = calendarData[i];
-      }
-    }
-    
-    return termData;
+    page.calendarcontainer = CreateElement.createDiv('calendar', null);
+    page.body.appendChild(page.calendarcontainer);
+    _refreshCalendar();
   }
   
+  function _renderControls() {
+    var container = CreateElement.createDiv(null, 'standard-section');
+
+    var terms = ['semester1', 'semester2', 'trimester1', 'trimester2', 'trimester3', 'summer'];
+    for (var i = 0; i < terms.length; i++) {
+      container.appendChild(CreateElement.createRadio(null, null, 'termRadio', terms[i], terms[i], i == 0, _handleRadio));
+    }
+
+    container.appendChild(CreateElement.createBR());
+    container.appendChild(CreateElement.createCheckbox('apCheckbox', null, '', 'ap', 'AP', false, _handleCheckbox));
+    
+    container.appendChild(CreateElement.createBR());
+    container.appendChild(CreateElement.createCheckbox('highlightCheckbox', null, '', 'highlightWeek', 'highlight current week', true, _handleCheckbox));
+
+    return container;
+  }
+  
+  function _refreshCalendar() {
+    settings.term = null
+    var termbuttons = document.getElementsByName('termRadio');
+    for (var i = 0; i < termbuttons.length; i++) {
+      if (termbuttons[i].checked) settings.term = termbuttons[i].value;
+    }
+    
+    settings.ap = document.getElementById('apCheckbox').checked;
+    settings.highlightweek = document.getElementById('highlightCheckbox').checked;
+    
+    if (page.pacingcalendar) {
+      page.pacingcalendar.parentNode.removeChild(page.pacingcalendar);
+      page.pacingcalendar = null;
+    }
+    
+    var validCombo = true;
+    if (settings.ap && settings.term != 'semester1' && settings.term != 'semester2') validCombo = false;
+
+    if (validCombo) {
+      page.pacingcalendar = _renderCalendar();
+      page.calendarcontainer.appendChild(page.pacingcalendar);
+    } else {
+      page.notice.setNotice('invalid settings');
+    }
+  }
+  
+  function _renderCalendar() {
+    settings.pacingcalendar = new PacingCalendar(settings.calendardata, settings.term, settings.ap, settings.highlightweek);
+    
+    return settings.pacingcalendar.render();
+  }
+
 	//------------------------------------------------------------------
 	// handlers
 	//------------------------------------------------------------------    
+  function _handleRadio(e) {
+    _refreshCalendar();
+  }
+
+  function _handleCheckbox(e) {
+    _refreshCalendar();
+  }
   
 	//---------------------------------------
 	// return from wrapper function

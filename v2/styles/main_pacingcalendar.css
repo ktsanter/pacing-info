@@ -54,14 +54,16 @@ body {
   display: inline-block;
 }
 
-/*-- Markdown example --*/
-#outputMarkdown {
-  display: inline-block;
-  border: 1px solid black;
-  padding-left: 0.4em;
-  padding-right: 0.4em;
-  min-width: 4em;
-  min-height: 1.4em;
-  margin-top: 0.1em;
+.calendar-controls {
+  border: 1px solid red;
+  margin-bottom: 0.6em;
 }
-/*-- end of Markdown example --*/
+
+#calendar {
+  display: inline-block;
+  color: black;
+  background-color: white;
+  font-size: 0.9em;
+  padding: 0.2em 0.2em;
+}
+
