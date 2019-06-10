@@ -134,8 +134,8 @@ class CreateElement {
     elem.type = 'checkbox';
     elem.name = groupName;
     elem.value = buttonValue;
-    elem.checked = checked;
-    elem.addEventListener('click', e => handler(e), false);
+    if (checked) elem.checked = checked;
+    if (handler) elem.addEventListener('click', e => handler(e), false);
     container.appendChild(elem);
     
     var label = CreateElement._createElement('label', id, classList);
@@ -152,8 +152,8 @@ class CreateElement {
     elem.type = 'radio';
     elem.name = groupName;
     elem.value = buttonValue;
-    elem.checked = checked;
-    elem.addEventListener('click', e => handler(e), false);
+    if (checked) elem.checked = checked;
+    if (handler) elem.addEventListener('click', e => handler(e), false);
     container.appendChild(elem);
     
     var label = CreateElement._createElement('label', id, classList);
@@ -219,4 +219,15 @@ class CreateElement {
     
     return elem;
   }  
+  
+  static createSpinner(id, classList, value, minval, maxval, step) {
+    var elem = CreateElement._createElement('input', id, classList);
+    elem.type = 'number';
+    if (value) elem.value = value;
+    if (minval) elem.min = minval;
+    if (maxval) elem.max = maxval;
+    if (step) elem.step = step;
+    
+    return elem;
+  }
 }

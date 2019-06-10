@@ -2,7 +2,7 @@
 //-----------------------------------------------------------------------------------
 // test driver for pacing guide
 //-----------------------------------------------------------------------------------
-// TODO: 
+// TODO: add single week selection
 //-----------------------------------------------------------------------------------
 
 const app = function () {
@@ -15,7 +15,7 @@ const app = function () {
     apibase: 'https://script.google.com/macros/s/AKfycbzp-DIszFmZMUasJwHnzwcQ9VE3NmI2QmbUvawRMq8fnDfuBCQ/exec',
     apikey: 'MVpacinginfov2'
   };
-  
+    
 	//---------------------------------------
 	// get things going
 	//----------------------------------------
@@ -25,18 +25,157 @@ const app = function () {
     _renderStandardElements();
 		
     var expectedQueryParams = [];
-    
-    //--- temp ---
-    settings.coursekey = 'fpb';
-    settings.term = 'semester1';
-    
-		if (_initializeSettings(expectedQueryParams)) {
-      settings.courselist = await _loadPacingGuideCourseList();
-      settings.pacingguidedata = await _loadPacingGuideData();
+        
+    settings.courselist = await _loadPacingGuideCourseList();
+    if (settings.courselist) {
       _renderPage();
 		}
   }
   
+	//-----------------------------------------------------------------------------
+	// page rendering
+	//-----------------------------------------------------------------------------  
+  function _renderStandardElements() {
+    var title = CreateElement.createDiv(null, 'standard-title', appname);
+    page.body.appendChild(title);
+    
+    page.notice = new StandardNotice(page.body, title);
+  }
+  
+  function _renderPage() {
+    page.body.appendChild(_renderControls());
+    page.guidecontainer = CreateElement.createDiv('outerGuideContainer', null);
+    page.body.appendChild(page.guidecontainer);
+  }
+  
+  function _renderControls() {
+    var terms = ['semester', 'trimester', 'summer'];
+    var weekChoices = ['all weeks', 'single week'];
+    var titleChoices = ['display title', 'display week number'];
+    
+    settings.displaytitle = true;
+    settings.displayweeknumber = false;
+
+    var outerContainer = CreateElement.createDiv('outerControlsContainer', null);
+    var container = CreateElement.createDiv(null, 'section-controls');
+    outerContainer.appendChild(container);
+
+    page.courseselect = CreateElement.createDiv(null, null, 'dummy');
+    container.appendChild(page.courseselect);
+    _renderCourseSelect(terms[0]);
+    
+    container.appendChild(CreateElement.createBR('putSelectBeforeMe'));
+    
+    for (var i = 0; i < terms.length; i++) {
+      container.appendChild(CreateElement.createRadio(null, null, 'termRadio', terms[i], terms[i], i == 0, _handleTermRadio));
+    }
+    
+    container.appendChild(CreateElement.createBR());
+    for (var i = 0; i < weekChoices.length; i++) {
+      container.appendChild(CreateElement.createRadio(null, null, 'weekchoiceRadio', weekChoices[i], weekChoices[i], i == 0));
+    }
+    
+    container.appendChild(CreateElement.createSpinner('spinnerWeek', null, 1, 1, 18, 1));
+
+    container.appendChild(CreateElement.createBR());
+    for (var i = 0; i < titleChoices.length; i++) {
+      container.appendChild(CreateElement.createCheckbox(null, null, 'titleCheckbox', titleChoices[i], titleChoices[i], i == 0));
+    }
+    
+    container.appendChild(CreateElement.createBR());
+    container.appendChild(CreateElement.createButton(null, null, 'render', 'render', _handleRenderButton));
+
+    return outerContainer;
+  }
+  
+  function _renderCourseSelect(term) {
+    var coursesForTerm = settings.courselist[term].sort();
+    var courseOptions = [];
+    for (var i = 0; i < coursesForTerm.length; i++) {
+      courseOptions.push({value: coursesForTerm[i], textval: coursesForTerm[i]});
+    }
+    
+    var newSelect = CreateElement.createSelect('selectCourse', null, null, courseOptions);
+    
+    var elemParent = page.courseselect.parentNode;
+    elemParent.removeChild(page.courseselect);
+    page.courseselect = newSelect;
+    elemParent.insertBefore(page.courseselect, document.getElementById('putSelectBeforeMe'));
+  }
+  
+  async function _refreshPacingGuide() {
+    page.notice.hideError();
+    while (page.guidecontainer.childNodes.length > 0) page.guidecontainer.removeChild(page.guidecontainer.childNodes[0]);
+    
+    var coursekey = _getCoursekey();
+    var term = _getTerm();
+    var weekChoice = _getWeekChoice();
+    var displayChoices = _getLabelDisplayChoices();
+    
+    settings.pacingguidedata = await _loadPacingGuideData(coursekey, term);
+
+    if (settings.pacingguidedata != null) {
+      if (weekChoice == 'all weeks') {
+        new PacingGuide(settings.pacingguidedata).render(page.guidecontainer, displayChoices.title);
+      } else {
+        new PacingGuide(settings.pacingguidedata).renderWeek(page.guidecontainer, weekChoice, displayChoices.title, displayChoices.weeknumber);
+      }
+    }
+  }
+  
+	//------------------------------------------------------------------
+	// get configuration parameters from UI
+	//------------------------------------------------------------------    
+  function _getTerm() {
+    var elems = document.getElementsByName('termRadio');
+    var term = null;
+    for (var i = 0; i < elems.length && !term; i++) {
+      if (elems[i].checked) term = elems[i].value;
+    }
+
+    return term;    
+  }
+  
+  function _getCoursekey() {
+    var coursekey = document.getElementById('selectCourse').value;
+
+    return coursekey;
+  }
+  
+  function _getWeekChoice() {
+    var elems = document.getElementsByName('weekchoiceRadio');
+    var weekChoice = null;
+    for (var i = 0; i < elems.length && !weekChoice; i++) {
+      if (elems[i].checked) {
+        if (elems[i].value == 'all weeks') {
+          weekChoice = elems[i].value;
+        } else {
+          weekChoice = document.getElementById('spinnerWeek').value;
+        }
+      }
+    }
+
+    return weekChoice;
+  }
+  
+  function _getLabelDisplayChoices() {
+    var elems = document.getElementsByName('titleCheckbox');
+    var displayTitle = false;
+    var displayWeekNumber = false;
+    
+    for (var i = 0; i < elems.length; i++) {
+      if (elems[i].checked) {
+        if (elems[i].value == 'display title') displayTitle = true;
+        else displayWeekNumber = true;
+      }
+    }
+    
+    return {title: displayTitle, weeknumber: displayWeekNumber};
+  }
+  
+	//------------------------------------------------------------------
+	// data retrieval
+	//------------------------------------------------------------------      
   async function _loadPacingGuideCourseList() {
     var result = null;
     
@@ -56,11 +195,11 @@ const app = function () {
     return result;
   }
   
-  async function _loadPacingGuideData() {
+  async function _loadPacingGuideData(coursekey, term) {
     var result = null;
     
     page.notice.setNotice('loading...', true);
-    var requestParams = {coursekey: settings.coursekey, term: settings.term};
+    var requestParams = {coursekey: coursekey, term: term};
     var requestResult = await googleSheetWebAPI.webAppGet(apiInfo, 'pacingguide', requestParams, page.notice);
 
     if (requestResult.success) {
@@ -74,122 +213,15 @@ const app = function () {
     
     return result;
   }
-  
-	//-------------------------------------------------------------------------------------
-	// process query params
-	//-------------------------------------------------------------------------------------
-	function _initializeSettings(expectedParams) {
-    var result = false;
-
-    var urlParams = new URLSearchParams(window.location.search);
-    for (var i = 0; i < expectedParams.length; i++) {
-      var key = expectedParams[i].key;
-      settings[key] = urlParams.has(key) ? urlParams.get(key) : null;
-    }
-
-    var receivedRequiredParams = true;
-    for (var i = 0; i < expectedParams.length && receivedRequiredParams; i++) {
-      var key = expectedParams[i].key;
-      if (expectedParams[i].required) receivedRequiredParams = (settings[key] != null);
-    }
-    
-    if (receivedRequiredParams) {
-			result = true;
-
-    } else {   
-      page.notice.setNotice('failed to initialize: invalid parameters');
-    }
-    
-    return result;
-  }
-	
-	//-----------------------------------------------------------------------------
-	// page rendering
-	//-----------------------------------------------------------------------------  
-  function _renderStandardElements() {
-    var title = CreateElement.createDiv(null, 'standard-title', appname);
-    page.body.appendChild(title);
-    
-    page.notice = new StandardNotice(page.body, title);
-  }
-  
-  function _renderPage() {
-    page.body.appendChild(_renderControls());
-    
-    page.guidecontainer = CreateElement.createDiv('outerGuideContainer', null);
-    page.body.appendChild(page.guidecontainer);
-    _renderPacingGuide(page.guidecontainer);
-  }
-  
-  function _renderControls() {
-    var container = CreateElement.createDiv(null, 'section-controls');
-
-    console.log(settings.courselist);
-    container.appendChild(CreateElement.createDiv(null, null, 'put course selector here'));
-    
-    var terms = ['semester1', 'semester2', 'trimester1', 'trimester2', 'trimester3', 'summer'];
-    for (var i = 0; i < terms.length; i++) {
-      container.appendChild(CreateElement.createRadio(null, null, 'termRadio', terms[i], terms[i], i == 0, _handleRadio));
-    }
-
-    return container;
-  }
-  
-  function _renderPacingGuide(attachTo) {
-    page.guide = CreateElement.createDiv(null, null);
-    attachTo.appendChild(page.guide);
-
-    var guidedata = settings.pacingguidedata;
-
-    page.guide.appendChild(CreateElement.createDiv(null, 'guide-label', guidedata.coursename + ' ' + guidedata.numberofweeks + ' week pacing guide'));
-    
-    var table = CreateElement.createTable('pacingGuide', 'guide-table');
-    page.guide.appendChild(table);
-
-    var headers = ['week', 'unit/module', 'lesson/assignment', 'complete?<br>yes/no'];
-    if (guidedata.ap) headers[3] = 'due date<br>(11:59pm)';
-  
-    var row = CreateElement.createTableRow(null, null, table);
-    for (var i = 0; i < headers.length; i++) {
-      CreateElement.createTableCell(null, null, headers[i], true, row);
-    }
-    
-    for (var i = 0; i < guidedata.pacingguide.length; i++) {
-      var rowData = guidedata.pacingguide[i];
-      var rowClassList = 'guide-oddweek';
-      if (rowData.week % 2 == 0) rowClassList = 'guide-evenweek';
-      if (rowData.progresscheck) rowClassList += 'guide-progresscheck';
-      
-      var taskClassList = null;
-      if (rowData.graded) taskClassList = 'guide-graded';
-      
-      row = CreateElement.createTableRow(null, rowClassList, table);
-      CreateElement.createTableCell(null, null, rowData.week, false, row);      
-      CreateElement.createTableCell(null, null, rowData.unit, false, row);      
-      CreateElement.createTableCell(null, taskClassList, rowData.task, false, row);      
-      CreateElement.createTableCell(null, null, '', false, row);      
-   }
-  }
-
-  async function _refreshPacingGuide() {
-    page.notice.hideError();
-    if (page.guide) {
-      page.guide.parentNode.removeChild(page.guide);
-      page.guide = null;
-    }
-
-    settings.pacingguidedata = await _loadPacingGuideData();
-
-    if (settings.pacingguidedata != null) {
-      _renderPacingGuide(page.guidecontainer);
-    }
-  }
-  
+  	
 	//------------------------------------------------------------------
 	// handlers
-	//------------------------------------------------------------------    
-  function _handleRadio(e) {
-    settings.term = e.target.value;
+	//------------------------------------------------------------------      
+  function _handleTermRadio(e) {
+    _renderCourseSelect(e.target.value);    
+  }
+  
+  function _handleRenderButton(e) {
     _refreshPacingGuide();
   }
 

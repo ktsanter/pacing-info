@@ -1,0 +1,44 @@
+/*-------------------------------------------------------------------*/
+ /* styling for pacing guide class                                   */
+ /*------------------------------------------------------------------*/
+
+.guide-label {
+  font-weight: bold;
+  margin-bottom: 0.4em;
+}
+
+#pacingGuide {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+
+.guide-table th, td {
+  border: 1px solid black;
+  padding-left: 0.3em;
+  padding-right: 0.3em;
+}
+
+.guide-week div {
+  max-width: 30em;
+}
+
+.guide-week-long div {
+  max-width: 40em;
+  padding-top: 0.2em;
+  padding-bottom: 0.2em;
+}
+
+.guide-oddweek {}
+.guide-evenweek {
+  background-color: #ddd;
+}
+
+.guide-progresscheck {
+  font-style: italic;
+  font-weight: bold;
+  color: blue;
+}
+
+.guide-graded {
+  font-weight: bold;
+}
