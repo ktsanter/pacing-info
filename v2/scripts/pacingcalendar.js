@@ -26,7 +26,7 @@ class PacingCalendar {
     var highlightWeek = null;
     
     if (this._ap) {
-      container.appendChild(CreateElement.createDiv(null, 'calendar-label', 'Pacing calendar (' + this._term + ')'));
+      container.appendChild(CreateElement.createDiv(null, 'calendar-label', 'Pacing calendar'));
       
       var startMsg1 = DateTime.formatDateShortWithWeekday(termData.ap.startdate);
       var endMsg1 = DateTime.formatDateShortWithWeekday(termData.ap.enddate);
@@ -46,7 +46,7 @@ class PacingCalendar {
       }
       
     } else if (this._term == 'summer') {
-      container.appendChild(CreateElement.createDiv(null, 'calendar-label', 'Pacing calendar (' + this._term + ')'));
+      container.appendChild(CreateElement.createDiv(null, 'calendar-label', 'Pacing calendar'));
       
       var startMsg1 = DateTime.formatDateShortWithWeekday(termData.start1.startdate);
       var endMsg1 = DateTime.formatDateShortWithWeekday(termData.start1.enddate);
@@ -66,7 +66,7 @@ class PacingCalendar {
       }
       
     } else {
-      container.appendChild(CreateElement.createDiv(null, 'calendar-label', 'Pacing calendar (' + this._term + ')'));
+      container.appendChild(CreateElement.createDiv(null, 'calendar-label', 'Pacing calendar'));
       
       var startMsg1 = DateTime.formatDateShortWithWeekday(termData.start1.startdate);
       var endMsg1 = DateTime.formatDateShortWithWeekday(termData.start1.enddate);

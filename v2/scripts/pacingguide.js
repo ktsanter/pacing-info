@@ -13,7 +13,7 @@ class PacingGuide {
 	// rendering
 	//-----------------------------------------------------------------------------  
   render (attachTo, displayTitle) {
-    var guide = CreateElement.createDiv(null, null);
+    var guide = CreateElement.createDiv(null, 'guide-container');
     attachTo.appendChild(guide);
 
     if (displayTitle) {
@@ -72,7 +72,7 @@ class PacingGuide {
   }
 
   renderWeek (attachTo, weekNumber, displayTitle, displayWeekNumber) {
-    var guide = CreateElement.createDiv(null, null);
+    var guide = CreateElement.createDiv(null, 'guide-container');
     attachTo.appendChild(guide);
 
     var title = '';
@@ -107,9 +107,10 @@ class PacingGuide {
       if (rowData.week == weekNumber) {
         row = CreateElement.createTableRow(null, null, tbody);
         if (rowData.unit.indexOf('[colspan]') == 0) {
-          var truncMessage = rowData.unit.slice('[colspan]'.length);
           if (!taskClassList) taskClassList = 'guide-week-long';
           else taskClassList += ' guide-week-long';
+          
+          var truncMessage = rowData.unit.slice('[colspan]'.length);
           var cell = CreateElement.createTableCell(null, taskClassList, null, false, row);
           cell.appendChild(CreateElement.createDiv(null, null, truncMessage));
           cell.colSpan = 3;

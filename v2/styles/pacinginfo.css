@@ -1,0 +1,112 @@
+/*-------------------------------------------------------------------*/
+ /* styling for pacing info class                                   */
+ /*------------------------------------------------------------------*/
+
+#containerAnnouncements {
+  display: inline-block;
+  vertical-align: text-top;  
+}
+#iframeAnnouncements {
+  border:none;
+}
+
+#containerCalendar {
+  display: inline-block;
+}
+
+#containerGuide {
+  display: inline-block;
+}
+
+#containerHome {
+  display: inline-block;
+  border: 1px solid red;
+}
+
+/*-- pacing guide --*/
+.guide-container {
+  font-size: 0.9em;
+  display: inline-block;
+  background-color: white;
+  border-radius: 8px 8px 0px 0px;
+}
+
+.guide-label {
+  font-size: 1.0em;
+  font-weight: bold;
+  margin-bottom: 0.4em;
+  border-radius: 8px 8px 0px 0px;
+  color: white;
+  background-color: #2f8d98;
+  padding: 0.3em;
+  text-align: center;
+}
+
+#pacingGuide {
+  font-size: 0.9em;
+  margin-bottom: 0px;
+}
+
+.guide-week div {
+  max-width: 20em;
+}
+
+.guide-week-long div {
+  max-width: 36em;
+  padding-top: 0.2em;
+  padding-bottom: 0.2em;
+}
+
+.guide-progresscheck {
+  font-style: italic;
+  font-weight: bold;
+  color: blue;
+}
+
+.guide-notgraded {
+  font-style: italic;
+}
+/*-- end of pacing guide --*/
+
+/*-- pacing calender --*/
+.calendar-container {
+  font-size: 0.9em;
+  display: inline-block;
+  background-color: white;
+  border-radius: 8px 8px 0px 0px;
+}
+
+.calendar-label {
+  font-size: 1.0em;
+  font-weight: bold;
+  margin-bottom: 0.4em;
+  border-radius: 8px 8px 0px 0px;
+  color: white;
+  background-color: #2f8d98;
+  padding: 0.3em;
+  text-align: center;
+}
+
+#pacingCalendar {
+  font-size: 0.9em;
+  margin-bottom: 0px;
+  text-align: center;
+}
+
+#pacingCalendar tr {
+ /* height: 1em;*/
+}
+
+#pacingCalendar th {
+  text-align: center;
+}
+
+.highlightweek {
+  background-color: lightblue;
+  font-weight: bold;
+}
+
+.highlightweek:hover {
+  background-color: lightblue !important; 
+}
+/*-- end of pacing calendar --*/

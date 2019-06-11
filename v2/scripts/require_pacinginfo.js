@@ -1,6 +1,7 @@
 define(function (require) {
-  require('main_pacingguide');
+  require('main_pacinginfo');
   require('pacingguide');
+  require('pacingcalendar');
   require('standard_notice');
   require('google_webapp_interface');
   require('create_element');

@@ -6,7 +6,7 @@
 //-----------------------------------------------------------------------------------
 class CreateElement {
   constructor () {
-    this._version = '0.01';
+    this._version = '0.05';
   }
       
   static _createElement(elemType, id, classList) {
@@ -20,7 +20,7 @@ class CreateElement {
     if (classList && classList != '') {
       var splitClass = classList.split(' ');
       for (var i = 0; i < splitClass.length; i++) {
-        elem.classList.add(splitClass[i]);
+        elem.classList.add(splitClass[i].trim());
       }
     }
   }
@@ -227,10 +227,24 @@ class CreateElement {
   static createSpinner(id, classList, value, minval, maxval, step) {
     var elem = CreateElement._createElement('input', id, classList);
     elem.type = 'number';
-    if (value) elem.value = value;
-    if (minval) elem.min = minval;
-    if (maxval) elem.max = maxval;
+    if (value != null) elem.value = value;
+    if (minval != null) elem.min = minval;
+    if (maxval != null) elem.max = maxval;
     if (step) elem.step = step;
+    
+    return elem;
+  }
+  
+  static createIframe(id, classList, src, width, height, allowfullscreen) {
+    var elem = CreateElement._createElement('iframe', id, classList);
+    elem.src = src;
+    if (width != null) elem.width = width;
+    if (height != null) elem.height = height;
+    if (allowfullscreen != null) {
+      elem.allowfullscreen = allowfullscreen;
+      elem.mozallowfullscreen = allowfullscreen;
+      elem.webkitallowfullscreen = allowfullscreen;
+    }
     
     return elem;
   }
