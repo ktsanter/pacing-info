@@ -30,6 +30,29 @@ class DateTime {
     
     return formattedDate;
   }
+  
+  static formatDateShort(theDate) {
+    var formattedDate = theDate;
+    
+    if (DateTime.isValidDate(theDate)) {
+      formattedDate = DateTime.formatDate(theDate).slice(0, -3);
+    }
+    
+    return formattedDate;
+  }
+
+  
+  static formatDateShortWithWeekday(theDate) {
+    var weekDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    var formattedDate = theDate;
+    
+    if (DateTime.isValidDate(theDate)) {
+      var objDate = new Date(theDate);
+      formattedDate = weekDays[objDate.getDay()] + ' ' + DateTime.formatDateShort(theDate);
+    }
+    
+    return formattedDate;
+  }
 
   static compareDateToNow(date, daysInWindow) {
     const _MS_PER_DAY = 1000 * 60 * 60 * 24;

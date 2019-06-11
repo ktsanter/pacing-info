@@ -26,10 +26,10 @@ class PacingCalendar {
     var highlightWeek = null;
     
     if (this._ap) {
-      container.appendChild(CreateElement.createDiv(null, 'calendar-label', 'AP pacing calendar (' + this._term + ')'));
+      container.appendChild(CreateElement.createDiv(null, 'calendar-label', 'Pacing calendar (' + this._term + ')'));
       
-      var startMsg1 = 'start: ' + DateTime.formatDate(termData.ap.startdate).slice(0, -3);
-      var endMsg1 = 'end: ' + DateTime.formatDate(termData.ap.enddate).slice(0, -3);
+      var startMsg1 = DateTime.formatDateShortWithWeekday(termData.ap.startdate);
+      var endMsg1 = DateTime.formatDateShortWithWeekday(termData.ap.enddate);
       var msg1 = startMsg1 + '<br>' + endMsg1;
             
       headers = ['date', msg1];
@@ -40,7 +40,7 @@ class PacingCalendar {
         if (DateTime.isNowInWeek(weekDate)) highlightWeek = i;
 
         cells.push([ 
-          DateTime.formatDate(weekDate), 
+          DateTime.formatDateShortWithWeekday(weekDate), 
           termData.ap.weeks[i].weekname
         ]);
       }
@@ -48,8 +48,8 @@ class PacingCalendar {
     } else if (this._term == 'summer') {
       container.appendChild(CreateElement.createDiv(null, 'calendar-label', 'Pacing calendar (' + this._term + ')'));
       
-      var startMsg1 = 'start: ' + DateTime.formatDate(termData.start1.startdate).slice(0, -3);
-      var endMsg1 = 'end: ' + DateTime.formatDate(termData.start1.enddate).slice(0, -3);
+      var startMsg1 = DateTime.formatDateShortWithWeekday(termData.start1.startdate);
+      var endMsg1 = DateTime.formatDateShortWithWeekday(termData.start1.enddate);
       var msg1 = startMsg1 + '<br>' + endMsg1;
             
       headers = ['date', msg1];
@@ -60,7 +60,7 @@ class PacingCalendar {
         if (DateTime.isNowInWeek(weekDate)) highlightWeek = i;
 
         cells.push([ 
-          DateTime.formatDate(weekDate), 
+          DateTime.formatDateShortWithWeekday(weekDate), 
           termData.start1.weeks[i].weekname
         ]);
       }
@@ -68,12 +68,12 @@ class PacingCalendar {
     } else {
       container.appendChild(CreateElement.createDiv(null, 'calendar-label', 'Pacing calendar (' + this._term + ')'));
       
-      var startMsg1 = 'start: ' + DateTime.formatDate(termData.start1.startdate).slice(0, -3);
-      var endMsg1 = 'end: ' + DateTime.formatDate(termData.start1.enddate).slice(0, -3);
+      var startMsg1 = DateTime.formatDateShortWithWeekday(termData.start1.startdate);
+      var endMsg1 = DateTime.formatDateShortWithWeekday(termData.start1.enddate);
       var msg1 = startMsg1 + '<br>' + endMsg1;
       
-      var startMsg2 = 'start: ' + DateTime.formatDate(termData.start2.startdate).slice(0, -3);
-      var endMsg2 = 'end: ' + DateTime.formatDate(termData.start2.enddate).slice(0, -3);
+      var startMsg2 = DateTime.formatDateShortWithWeekday(termData.start2.startdate);
+      var endMsg2 =  DateTime.formatDateShortWithWeekday(termData.start2.enddate);
       var msg2 = startMsg2 + '<br>' + endMsg2;
       
       headers = ['date', msg1, msg2];
@@ -84,7 +84,7 @@ class PacingCalendar {
         if (DateTime.isNowInWeek(weekDate)) highlightWeek = i;
 
         cells.push([ 
-          DateTime.formatDate(weekDate), 
+          DateTime.formatDateShortWithWeekday(weekDate), 
           termData.start1.weeks[i].weekname,
           termData.start2.weeks[i].weekname
         ]);
@@ -95,8 +95,9 @@ class PacingCalendar {
     container.appendChild(table);
     CreateElement.addClassList(table,'table table-hover table-condensed');
     if (this._highlightweek && highlightWeek != null) {
-      var td = table.getElementsByTagName('td');
-      td[highlightWeek].parentNode.classList.add('highlightweek');
+      console.log('highlightWeek= ' + highlightWeek);
+      var trNode = table.getElementsByTagName('tbody')[0].childNodes[highlightWeek];
+      trNode.classList.add('highlightweek');
     }
 
     return container;

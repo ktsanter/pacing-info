@@ -30,3 +30,7 @@
   background-color: lightblue;
   font-weight: bold;
 }
+
+.highlightweek:hover {
+  background-color: lightblue !important; 
+}
