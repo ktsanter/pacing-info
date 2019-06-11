@@ -60,30 +60,30 @@ const app = function () {
     var container = CreateElement.createDiv(null, 'section-controls');
     outerContainer.appendChild(container);
 
-    page.courseselect = CreateElement.createDiv(null, null, 'dummy');
+    page.courseselect = CreateElement.createDiv(null, 'guide-control', 'dummy');
     container.appendChild(page.courseselect);
     _renderCourseSelect(terms[0]);
     
     container.appendChild(CreateElement.createBR('putSelectBeforeMe'));
     
     for (var i = 0; i < terms.length; i++) {
-      container.appendChild(CreateElement.createRadio(null, null, 'termRadio', terms[i], terms[i], i == 0, _handleTermRadio));
+      container.appendChild(CreateElement.createRadio(null, 'guide-control', 'termRadio', terms[i], terms[i], i == 0, _handleTermRadio));
     }
     
     container.appendChild(CreateElement.createBR());
     for (var i = 0; i < weekChoices.length; i++) {
-      container.appendChild(CreateElement.createRadio(null, null, 'weekchoiceRadio', weekChoices[i], weekChoices[i], i == 0));
+      container.appendChild(CreateElement.createRadio(null, 'guide-control', 'weekchoiceRadio', weekChoices[i], weekChoices[i], i == 0));
     }
     
-    container.appendChild(CreateElement.createSpinner('spinnerWeek', null, 1, 1, 18, 1));
+    container.appendChild(CreateElement.createSpinner('spinnerWeek', 'guide-control', 1, 1, 18, 1));
 
     container.appendChild(CreateElement.createBR());
     for (var i = 0; i < titleChoices.length; i++) {
-      container.appendChild(CreateElement.createCheckbox(null, null, 'titleCheckbox', titleChoices[i], titleChoices[i], i == 0));
+      container.appendChild(CreateElement.createCheckbox(null, 'guide-control', 'titleCheckbox', titleChoices[i], titleChoices[i], i == 0));
     }
     
     container.appendChild(CreateElement.createBR());
-    container.appendChild(CreateElement.createButton(null, null, 'render', 'render', _handleRenderButton));
+    container.appendChild(CreateElement.createButton(null, 'guide-control', 'render', 'render', _handleRenderButton));
 
     return outerContainer;
   }
@@ -95,7 +95,7 @@ const app = function () {
       courseOptions.push({value: coursesForTerm[i], textval: coursesForTerm[i]});
     }
     
-    var newSelect = CreateElement.createSelect('selectCourse', null, null, courseOptions);
+    var newSelect = CreateElement.createSelect('selectCourse', 'guide-control', null, courseOptions);
     
     var elemParent = page.courseselect.parentNode;
     elemParent.removeChild(page.courseselect);

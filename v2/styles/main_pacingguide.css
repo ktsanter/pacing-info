@@ -17,6 +17,7 @@ body {
 	background-color: #eee;
 	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 	font-size: 13px;
+  margin-left: 0.4em;
 }
 
 .standard-title {
@@ -36,10 +37,17 @@ body {
   padding: 0.4em 0.4em;
 }
 
+.guide-control {
+  margin-bottom: 0.6em;
+  margin-right: 0.6em;
+  font-weight: normal;
+}
+
 #outerGuideContainer {
   display: inline-block;
   color: black;
   background-color: white;
+  border-radius: 8px;
   font-size: 0.9em;
-  padding: 0.2em 0.2em;
+  /*padding: 0.2em 0.2em;*/
 }

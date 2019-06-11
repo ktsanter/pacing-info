@@ -2,7 +2,7 @@
 //-----------------------------------------------------------------------------------
 // pacing calendar class
 //-----------------------------------------------------------------------------------
-// TODO: styling
+// TODO: 
 //-----------------------------------------------------------------------------------
 class PacingCalendar {
   constructor (calendarData, term, ap, highlightweek) {
@@ -32,7 +32,7 @@ class PacingCalendar {
       var endMsg1 = DateTime.formatDateShortWithWeekday(termData.ap.enddate);
       var msg1 = startMsg1 + '<br>' + endMsg1;
             
-      headers = ['date', msg1];
+      headers = ['', msg1];
       
       var cells = [];
       for (var i = 0; i < termData.ap.weeks.length - 1; i++) {
@@ -52,7 +52,7 @@ class PacingCalendar {
       var endMsg1 = DateTime.formatDateShortWithWeekday(termData.start1.enddate);
       var msg1 = startMsg1 + '<br>' + endMsg1;
             
-      headers = ['date', msg1];
+      headers = ['', msg1];
       
       var cells = [];
       for (var i = 0; i < termData.start1.weeks.length - 1; i++) {
@@ -76,7 +76,7 @@ class PacingCalendar {
       var endMsg2 =  DateTime.formatDateShortWithWeekday(termData.start2.enddate);
       var msg2 = startMsg2 + '<br>' + endMsg2;
       
-      headers = ['date', msg1, msg2];
+      headers = ['', msg1, msg2];
       
       var cells = [];
       for (var i = 0; i < termData.start1.weeks.length; i++) {
@@ -91,9 +91,8 @@ class PacingCalendar {
       }
     }
 
-    var table = CreateElement.createTable('pacingCalendar', 'calendar-table', headers, cells);
+    var table = CreateElement.createTable('pacingCalendar', 'table table-hover table-condensed', headers, cells);
     container.appendChild(table);
-    CreateElement.addClassList(table,'table table-hover table-condensed');
     if (this._highlightweek && highlightWeek != null) {
       console.log('highlightWeek= ' + highlightWeek);
       var trNode = table.getElementsByTagName('tbody')[0].childNodes[highlightWeek];

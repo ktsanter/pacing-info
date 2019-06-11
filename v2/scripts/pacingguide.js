@@ -2,9 +2,8 @@
 //-----------------------------------------------------------------------------------
 // pacing guide class
 //-----------------------------------------------------------------------------------
-// TODO: styling
+// TODO:
 //-----------------------------------------------------------------------------------
-
 class PacingGuide {
   constructor (pacingguideData) {
     this._pacingguideData = pacingguideData;
@@ -23,27 +22,31 @@ class PacingGuide {
       guide.appendChild(CreateElement.createDiv(null, 'guide-label', title));
     }
     
-    var table = CreateElement.createTable('pacingGuide', 'guide-table');
+    var table = CreateElement.createTable('pacingGuide', 'table table-hover table-condensed');
     guide.appendChild(table);
 
-    var headers = ['week', 'unit/module', 'lesson/assignment', 'complete?<br>yes/no'];
-    if (this._pacingguideData.ap) headers[3] = 'due date<br>(11:59pm)';
-  
-    var row = CreateElement.createTableRow(null, null, table);
+    var headers = ['week', 'unit', 'task', 'complete?'];
+    if (this._pacingguideData.ap) headers[3] = 'due';
+
+    var thead = CreateElement._createElement('thead', null, null);
+    table.appendChild(thead);    
+    var row = CreateElement.createTableRow(null, null, thead);
     for (var i = 0; i < headers.length; i++) {
       CreateElement.createTableCell(null, null, headers[i], true, row);
     }
     
+    var tbody = CreateElement._createElement('tbody', null, null);
+    table.appendChild(tbody);
     for (var i = 0; i < this._pacingguideData.pacingguide.length; i++) {
       var rowData = this._pacingguideData.pacingguide[i];
       var rowClassList = 'guide-week guide-oddweek';
       if (rowData.week % 2 == 0) rowClassList = 'guide-week guide-evenweek';
       
       var taskClassList = null;
-      if (rowData.graded) taskClassList = 'guide-graded';
+      if (!rowData.graded) taskClassList = 'guide-notgraded';
       if (rowData.progresscheck) taskClassList += ' guide-progresscheck';
       
-      row = CreateElement.createTableRow(null, rowClassList, table);
+      row = CreateElement.createTableRow(null, rowClassList, tbody);
       if (rowData.unit.indexOf('[colspan]') == 0) {
         var truncMessage = rowData.unit.slice('[colspan]'.length);
         if (!taskClassList) taskClassList = 'guide-week-long';
@@ -60,7 +63,7 @@ class PacingGuide {
         cell.appendChild(CreateElement.createDiv(null, null, rowData.task));
         
         if (this._pacingguideData.ap) {
-          CreateElement.createTableCell(null, null, DateTime.formatDate(rowData.duedate).slice(0, -3), false, row);
+          CreateElement.createTableCell(null, null, DateTime.formatDateShortWithWeekday(rowData.duedate), false, row);
         } else {
           CreateElement.createTableCell(null, null, '', false, row);
         }
@@ -83,22 +86,26 @@ class PacingGuide {
     }
     if (title != '') guide.appendChild(CreateElement.createDiv(null, 'guide-label', title));
     
-    var table = CreateElement.createTable('pacingGuide', 'guide-table');
+    var table = CreateElement.createTable('pacingGuide', 'table table-hover table-condensed');
     guide.appendChild(table);
 
-    var headers = ['unit/module', 'lesson/assignment'];
-    if (this._pacingguideData.ap) headers = headers.concat(['due date<br>(11:59pm)']);
+    var headers = ['unit', 'task'];
+    if (this._pacingguideData.ap) headers = headers.concat(['due']);
   
-    var row = CreateElement.createTableRow(null, null, table);
+    var thead = CreateElement._createElement('thead', null, null);
+    table.appendChild(thead);
+    var row = CreateElement.createTableRow(null, null, thead);
     for (var i = 0; i < headers.length; i++) {
       CreateElement.createTableCell(null, null, headers[i], true, row);
     }
     
+    var tbody = CreateElement._createElement('tbody', null, null);
+    table.appendChild(tbody);
     for (var i = 0; i < this._pacingguideData.pacingguide.length; i++) {
       var rowData = this._pacingguideData.pacingguide[i];
       
       if (rowData.week == weekNumber) {
-        row = CreateElement.createTableRow(null, null, table);
+        row = CreateElement.createTableRow(null, null, tbody);
         if (rowData.unit.indexOf('[colspan]') == 0) {
           var truncMessage = rowData.unit.slice('[colspan]'.length);
           if (!taskClassList) taskClassList = 'guide-week-long';
@@ -109,13 +116,13 @@ class PacingGuide {
           
         } else {        
           var taskClassList = 'guide-week';
-          if (rowData.graded) taskClassList += ' guide-graded';
+          if (!rowData.graded) taskClassList += ' guide-notgraded';
           if (rowData.progresscheck) taskClassList += ' guide-progresscheck';
           
           CreateElement.createTableCell(null, null, rowData.unit, false, row);      
           var cell = CreateElement.createTableCell(null, taskClassList, null, false, row);
           cell.appendChild(CreateElement.createDiv(null, null, rowData.task));
-          if (this._pacingguideData.ap) CreateElement.createTableCell(null, null, DateTime.formatDate(rowData.duedate).slice(0, -3), false, row);
+          if (this._pacingguideData.ap) CreateElement.createTableCell(null, null, DateTime.formatDateShortWithWeekday(rowData.duedate), false, row);
         }
       }
     }
