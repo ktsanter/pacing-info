@@ -2,12 +2,28 @@
  /* styling for pacing info class                                   */
  /*------------------------------------------------------------------*/
 
+#containerHome {
+  display: none;
+  vertical-align: text-top;  
+  font-size: 0.9em;
+  background-color: white;
+  margin-right: 0.6em;
+  margin-top: -0.25em;
+  border-radius: 8px 8px 0px 0px;
+  min-width: 600px;
+  min-height: 450px;
+}
+
 #containerAnnouncements {
   display: inline-block;
   vertical-align: text-top;  
+  margin-right: 0.6em;
+  margin-top: -0.25em;
 }
+
 #iframeAnnouncements {
   border:none;
+  margin-top: -0.35em;
 }
 
 #containerCalendar {
@@ -18,10 +34,46 @@
   display: inline-block;
 }
 
-#containerHome {
-  display: inline-block;
-  border: 1px solid red;
+/*-- home page --*/
+#homepageTitle {
+  font-size: 1.0em;
+  font-weight: bold;
+  margin-bottom: 0.4em;
+  border-radius: 8px 8px 0px 0px;
+  color: white;
+  background-color: #093c44;
+  padding: 0.3em;  
 }
+
+#homepageContents {
+  margin-left: 0.2em;
+}
+
+#helpImage1 {
+  width: 180px;
+  margin-left: 40px;
+  border: 1px solid #AAAAAA;  
+}
+
+#helpImage2 {
+  width: 360px;
+  margin-left: 40px;
+  border: 1px solid #AAAAAA;  
+}
+/*-- end of home page --*/
+
+/*-- announcements --*/
+#announcementsTitle {
+  font-size: 0.9em;
+  font-weight: bold;
+  margin-bottom: 0.4em;
+  border-radius: 8px 8px 0px 0px;
+  color: white;
+  background-color: #093c44;
+  padding: 0.3em;
+}
+
+/*-- end of announcements --*/
 
 /*-- pacing guide --*/
 .guide-container {
@@ -37,9 +89,8 @@
   margin-bottom: 0.4em;
   border-radius: 8px 8px 0px 0px;
   color: white;
-  background-color: #2f8d98;
+  background-color: #093c44;
   padding: 0.3em;
-  text-align: center;
 }
 
 #pacingGuide {
@@ -82,9 +133,8 @@
   margin-bottom: 0.4em;
   border-radius: 8px 8px 0px 0px;
   color: white;
-  background-color: #2f8d98;
+  background-color: #093c44;
   padding: 0.3em;
-  text-align: center;
 }
 
 #pacingCalendar {

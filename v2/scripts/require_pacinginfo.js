@@ -1,5 +1,6 @@
 define(function (require) {
   require('main_pacinginfo');
+  require('pacinginfo');
   require('pacingguide');
   require('pacingcalendar');
   require('standard_notice');

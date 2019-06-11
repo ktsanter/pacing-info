@@ -1,0 +1,187 @@
+"use strict";
+//-----------------------------------------------------------------------------------
+// pacing info class
+//-----------------------------------------------------------------------------------
+// TODO: navbar or other menu
+// TODO: feature to open full pacing guide
+// TODO: open announcement (or announcements?) in full window
+//-----------------------------------------------------------------------------------
+class PacingInfo {
+  constructor (params, pacingCalendarData, pacingGuideData) {
+    this._coursekey = params.coursekey;
+    this._term = params.term;
+    this._shortTerm = params.shortTerm;
+    this._urlAnnouncements = params.urlAnnouncements;
+    this._weekNumber = params.weekNumber;
+    
+    this._pacingCalendarData = pacingCalendarData;
+    this._pacingGuideData = pacingGuideData;
+    
+    PacingInfo._terms = {
+      semester1: { termtype: "semester", displayname: "semester 1" },
+      semester2: { termtype: "semester", displayname: "semester 2" },
+      trimester1: { termtype: "trimester", displayname: "trimester 1" },
+      trimester2: { termtype: "trimester", displayname: "trimester 2" },
+      trimester3: { termtype: "trimester", displayname: "trimester 3" },
+      summer: { termtype: "summer", displayname: "summer" }
+    };
+    
+    PacingInfo._announcementsIframeWidth = 600;
+    PacingInfo._announcementsIframeHeight = 450;
+  
+    PacingInfo._pacingIndexMenuLink = 'https://drive.google.com/open?id=172L_BNdFQ90jsBvfFTMaeiQ1jP3zGgsQ';
+    PacingInfo._pacingIndexMenuLinkAP = 'https://drive.google.com/open?id=11qDWqfUHmJK_oZV0EXkuXAv14euIwjMd';
+    PacingInfo._pacingIndexMenuImage = 'https://drive.google.com/uc?id=172L_BNdFQ90jsBvfFTMaeiQ1jP3zGgsQ';
+    PacingInfo._pacingIndexMenuImageAP = 'https://drive.google.com/uc?id=11qDWqfUHmJK_oZV0EXkuXAv14euIwjMd';
+    PacingInfo._pacingIndexFindingEndDateLink = 'https://drive.google.com/open?id=1HIl_0nFL3-9lOJ-cl3KMiOKaU0Lcsvpe';
+    PacingInfo._pacingIndexFindingEndDateImage = 'https://drive.google.com/uc?id=1HIl_0nFL3-9lOJ-cl3KMiOKaU0Lcsvpe';
+  }
+  
+  _refresh() {
+    var containerParent = this._infocontainer.parentNode;
+    containerParent.removeChild(this._infocontainer);
+    this.render(containerParent);
+  }
+  
+  render(attachTo) {
+    this._infocontainer = CreateElement.createDiv(null, 'info-container');
+    attachTo.appendChild(this._infocontainer);
+    
+    var homecontainer = CreateElement.createDiv('containerHome', null); 
+    var announcecontainer = CreateElement.createDiv('containerAnnouncements', null);
+    var calendarcontainer = CreateElement.createDiv('containerCalendar', null);
+    var guidecontainer = CreateElement.createDiv('containerGuide', null);
+    
+    this._infocontainer.appendChild(homecontainer);
+    this._infocontainer.appendChild(announcecontainer);
+    this._infocontainer.appendChild(calendarcontainer);
+    this._infocontainer.appendChild(guidecontainer);
+    
+    calendarcontainer.appendChild(new PacingCalendar(this._pacingCalendarData, this._term, this._pacingGuideData.ap, true).render());
+    announcecontainer.appendChild(CreateElement.createDiv('announcementsTitle', null, this._pacingGuideData.coursename + ' (week ' + this._weekNumber + ')'));
+    announcecontainer.appendChild(CreateElement.createIframe(
+      'iframeAnnouncements', 
+      null, 
+      PacingInfo._makeLinkToAnnouncementsPage(this._urlAnnouncements, this._weekNumber), 
+      PacingInfo._announcementsIframeWidth, 
+      PacingInfo._announcementsIframeHeight, 
+      true
+    ));
+    
+    new PacingGuide(this._pacingGuideData).renderWeek(guidecontainer, this._weekNumber, false, true)
+    this._renderHomePage(homecontainer, this._pacingGuideData.ap);
+
+    PacingInfo._showMe(homecontainer, this._weekNumber == 0);
+    PacingInfo._showMe(announcecontainer, this._weekNumber != 0);
+    PacingInfo._showMe(calendarcontainer, this._weekNumber == 0);
+    PacingInfo._showMe(guidecontainer, this._weekNumber != 0);    
+    
+    //temp
+    var handler = function (me) { return function(e) {me._handleUp();}} (this);
+    this._infocontainer.appendChild(CreateElement.createButton(null, null, 'up', 'up', handler));
+    handler = function (me) { return function(e) {me._handleDown();}} (this);
+    this._infocontainer.appendChild(CreateElement.createButton(null, null, 'down', 'down', handler));
+  }
+
+  _renderHomePage(container, ap) {
+    container.style.width = this._announcementsIframeWidth + 'px';
+    container.style.height = this._announcementsIframeHeight + 'px';
+    container.style.minWidth = this._announcementsIframeWidth + 'px';
+    container.style.minHeight = this._announcementsIframeHeight + 'px';
+
+    container.appendChild(CreateElement.createDiv('homepageTitle', null, this._pacingGuideData.coursename));
+    var contents = CreateElement.createDiv('homepageContents', null);
+    container.appendChild(contents);
+    
+    contents.appendChild(CreateElement.createDiv(null, null, 'This tool provides week-by-week pacing information for the course<br><br>' + 'According to the pacing guide: '));
+    
+    contents.appendChild(this._renderHomePageWeekList());
+    
+    contents.appendChild(CreateElement.createBR());
+
+    contents.appendChild(CreateElement.createDiv(null, null, 'You can use the menu to access info for your current pacing week or any other.'));
+    var img = PacingInfo._pacingIndexMenuImage;
+    if (ap) img = PacingInfo._pacingIndexMenuImageAP;
+    contents.appendChild(CreateElement.createImage('helpImage1', null, img, 'click to see larger image'));
+    
+    contents.appendChild(CreateElement.createBR());
+    contents.appendChild(CreateElement.createBR());
+    
+    contents.appendChild(CreateElement.createDiv(null, null, 'You can find your start and end dates in the SLP.'));
+    contents.appendChild(CreateElement.createImage('helpImage2', null, PacingInfo._pacingIndexFindingEndDateImage, 'click to see larger image'));
+  }
+
+  _renderHomePageWeekList() {
+    var termCalendar = this._pacingCalendarData[this._term];
+    var ap = this._pacingGuideData.ap;
+
+    var dates = [];    
+    if (ap) {
+      dates.push({calendar: termCalendar.ap, currentWeek: this._findCurrentWeek(termCalendar.ap)});
+    } else {
+    dates.push({calendar: termCalendar.start1, currentWeek: this._findCurrentWeek(termCalendar.start1)});
+      if (termCalendar.hasOwnProperty('start2')) dates.push({calendar: termCalendar.start2, currentWeek: this._findCurrentWeek(termCalendar.start2)});
+    }
+    
+    var items = [];
+    for (var i = 0; i < dates.length; i++) {
+      var msg = '';
+      if (!ap && this._term != 'summer') {
+        msg += 'if the dates of your term are ' + DateTime.formatDate(dates[i].calendar.startdate);
+        msg += ' - ' + DateTime.formatDate(dates[i].calendar.enddate) + ' then ';
+      }
+      msg += 'you should be on <strong>' + dates[i].currentWeek + '<strong>';
+      items.push(msg);
+    }
+    
+    return CreateElement.createUL(null, null, items);
+  }
+  
+  static _makeLinkToAnnouncementsPage(baseAnnouncementsLink, pageNumber) {
+    var url = baseAnnouncementsLink + '&rm=minimal';  // eliminate control bar from slides
+    if (pageNumber && pageNumber > 0) {
+      url += '#' + pageNumber;
+    }
+    
+    return url;
+  }
+  
+  _findCurrentWeek(termCalendar) {
+    var currentWeek = null;
+    var weeksInShortTerm = {semester: 18, trimester: 12, summer: 10}
+    
+    var firstWeek = termCalendar.weeks[0];
+    var lastWeek = termCalendar.weeks[termCalendar.weeks.length - 1];
+    
+    if (DateTime.compareDateToNow(firstWeek.weekdate) < 0) {
+      currentWeek = 'week 1';
+    } else if (DateTime.compareDateToNow(lastWeek.weekdate) > 0) {
+      currentWeek = 'week ' + weeksInShortTerm[this._shortTerm];
+    }
+    
+    for (var i = 0; i < termCalendar.weeks.length && currentWeek == null; i++) {
+      var week = termCalendar.weeks[i];
+      if (DateTime.isNowInWeek(week.weekdate)) currentWeek = week.weekname;
+    }
+    
+    return currentWeek;
+  }
+
+  static _showMe(elem, show) {
+    if (show) {
+      elem.style.display = 'inline-block';
+    } else {
+      elem.style.display = 'none';
+    }
+  }
+  
+  _handleUp() {
+    this._weekNumber++;
+    this._refresh();
+  }
+  
+  _handleDown() {
+    this._weekNumber--;
+    this._refresh();
+  }
+}

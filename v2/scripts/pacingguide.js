@@ -82,7 +82,7 @@ class PacingGuide {
     } 
     if (displayTitle && displayWeekNumber) title += '<br>';
     if (displayWeekNumber) {
-      title += 'Week ' + weekNumber;
+      title += 'Tasks for week ' + weekNumber;
     }
     if (title != '') guide.appendChild(CreateElement.createDiv(null, 'guide-label', title));
     

@@ -10,7 +10,6 @@
   color: white;
   background-color: #2f8d98;
   padding: 0.3em;
-  text-align: center;
 }
 
 #pacingGuide {
@@ -37,36 +36,3 @@
 .guide-notgraded {
   font-style: italic;
 }
-
-/*
-.guide-table th, td {
-  border: 1px solid black;
-  padding-left: 0.3em;
-  padding-right: 0.3em;
-}
-
-.guide-week div {
-  max-width: 30em;
-}
-
-.guide-week-long div {
-  max-width: 40em;
-  padding-top: 0.2em;
-  padding-bottom: 0.2em;
-}
-
-.guide-oddweek {}
-.guide-evenweek {
-  background-color: #ddd;
-}
-
-.guide-progresscheck {
-  font-style: italic;
-  font-weight: bold;
-  color: blue;
-}
-
-.guide-graded {
-  font-weight: bold;
-}
-*/

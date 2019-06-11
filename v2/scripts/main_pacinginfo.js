@@ -2,7 +2,7 @@
 //-----------------------------------------------------------------------------------
 // test driver for pacing info
 //-----------------------------------------------------------------------------------
-// TODO:
+// TODO: add forced date for testing 
 //-----------------------------------------------------------------------------------
 
 const app = function () {
@@ -35,15 +35,23 @@ const app = function () {
     summer: { termtype: "summer", displayname: "summer" }
   };
 
-  const announcementsIframeWidth = 680;
-  const announcementsIframeHeight = 510;
-  
   const defaultAnnouncements = 'https://docs.google.com/presentation/d/e/2PACX-1vSrO9MidzGYwh7hBtswB24aWRdG-xbbq3EolP_pO-J_yNk1nzFutJSJs3JZXd0NPASLFa4GIPSq7R86/embed?start=false&loop=false&delayms=3000';
+
+  const announcementsIframeWidth = 600;
+  const announcementsIframeHeight = 450;
+  
+  const pacingIndexMenuLink = 'https://drive.google.com/open?id=172L_BNdFQ90jsBvfFTMaeiQ1jP3zGgsQ';
+  const pacingIndexMenuLinkAP = 'https://drive.google.com/open?id=11qDWqfUHmJK_oZV0EXkuXAv14euIwjMd';
+  const pacingIndexMenuImage = 'https://drive.google.com/uc?id=172L_BNdFQ90jsBvfFTMaeiQ1jP3zGgsQ';
+  const pacingIndexMenuImageAP = 'https://drive.google.com/uc?id=11qDWqfUHmJK_oZV0EXkuXAv14euIwjMd';
+  const pacingIndexFindingEndDateLink = 'https://drive.google.com/open?id=1HIl_0nFL3-9lOJ-cl3KMiOKaU0Lcsvpe';
+  const pacingIndexFindingEndDateImage = 'https://drive.google.com/uc?id=1HIl_0nFL3-9lOJ-cl3KMiOKaU0Lcsvpe';
     
 	//---------------------------------------
 	// get things going
 	//----------------------------------------
   async function init() {
+    
 		page.body = document.getElementsByTagName('body')[0];
 
     _renderStandardElements();
@@ -68,6 +76,7 @@ const app = function () {
     page.body.appendChild(_renderControls());
     page.infocontainer = CreateElement.createDiv('contentContainer', null);
     page.body.appendChild(page.infocontainer);
+    _refreshPacingInfo();
   }
   
   function _renderControls() {
@@ -96,66 +105,30 @@ const app = function () {
     var linkcontainer = CreateElement.createDiv(null, 'info-control', 'link to published announcements');
     container.appendChild(linkcontainer);
     linkcontainer.appendChild(CreateElement.createTextInput('inputAnnouncements', 'info-control', defaultAnnouncements));
-    linkcontainer.appendChild(CreateElement.createSpan(null, 'info-control', 'week number'));
-    linkcontainer.appendChild(CreateElement.createSpinner('spinnerWeek', 'info-control', 0, 0, 18, 1));
 
     container.appendChild(CreateElement.createButton('buttonRender', null, 'render', 'render', _handleRenderButton));    
     
     return container;
   }
   
-  function _makeLinkToAnnouncementsPage(baseAnnouncementsLink, pageNumber) {
-    var url = baseAnnouncementsLink + '&rm=minimal';  // eliminate control bar from slides
-    if (pageNumber && pageNumber > 0) {
-      url += '#' + pageNumber;
-    }
-    
-    return url;
-  }
-  
   async function _refreshPacingInfo() {
     page.notice.hideError();
     while (page.infocontainer.childNodes.length > 0) page.infocontainer.removeChild(page.infocontainer.childNodes[0]);    
     
-    var coursekey = _getCourseKey();
-    var term = _getTerm();
-    var shortTerm = _getShortTerm();
-    var urlAnnouncements = _getAnnouncementsURL();
-    var weekNumber = _getWeekNumber();
-    
-    var homecontainer = CreateElement.createDiv('containerHome', null, 'home info here'); 
-    var announcecontainer = CreateElement.createDiv('containerAnnouncements', null);
-    var calendarcontainer = CreateElement.createDiv('containerCalendar', null);
-    var guidecontainer = CreateElement.createDiv('containerGuide', null);
-    
-    page.infocontainer.appendChild(homecontainer);
-    page.infocontainer.appendChild(announcecontainer);
-    page.infocontainer.appendChild(calendarcontainer);
-    page.infocontainer.appendChild(guidecontainer);
-
-    var pacingguideData = await _loadPacingGuideData(coursekey, shortTerm);
+    var pacingguideData = await _loadPacingGuideData(_getCourseKey(), _getShortTerm());
     if (pacingguideData == null) return;
 
-    if (settings.pacingcalendardata == null) return;
-    
-    calendarcontainer.appendChild(new PacingCalendar(settings.pacingcalendardata, term, pacingguideData.ap, true).render());
-    announcecontainer.appendChild(CreateElement.createIframe('iframeAnnouncements', null, _makeLinkToAnnouncementsPage(urlAnnouncements, weekNumber), announcementsIframeWidth, announcementsIframeHeight, true));
-    new PacingGuide(pacingguideData).renderWeek(guidecontainer, weekNumber, false, true)
+    var params = {
+      coursekey: _getCourseKey(),
+      term: _getTerm(),
+      shortTerm: _getShortTerm(),
+      urlAnnouncements: _getAnnouncementsURL(),
+      weekNumber: 0
+    };
+    var info = new PacingInfo(params, settings.pacingcalendardata, pacingguideData);
+    info.render(page.infocontainer);
+  }
 
-    _showMe(homecontainer, weekNumber == 0);
-    _showMe(announcecontainer, weekNumber != 0);
-    _showMe(calendarcontainer, weekNumber == 0);
-    _showMe(guidecontainer, weekNumber != 0);    
-  }
-  
-  function _showMe(elem, show) {
-    if (show) {
-      elem.style.display = 'inline-block';
-    } else {
-      elem.style.display = 'none';
-    }
-  }
-  
 	//------------------------------------------------------------------
 	// get configuration parameters from UI
 	//------------------------------------------------------------------    
@@ -163,6 +136,12 @@ const app = function () {
     var coursekey = document.getElementById('selectCourse').value;
 
     return coursekey;    
+  }
+  
+  function _getCourseName() {
+    var coursekey = document.getElementById('selectCourse').value;
+
+    return courses[coursekey];    
   }
   
   function _getTerm() {
@@ -183,12 +162,6 @@ const app = function () {
     var url = document.getElementById('inputAnnouncements').value;
     
     return url;
-  }
-  
-  function _getWeekNumber() {
-    var weeknumber = document.getElementById('spinnerWeek').value;
-    
-    return weeknumber;
   }
   
 	//------------------------------------------------------------------

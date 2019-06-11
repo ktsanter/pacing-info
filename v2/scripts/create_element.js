@@ -248,4 +248,16 @@ class CreateElement {
     
     return elem;
   }
+  
+  static createUL(id, classList, values) {
+    var elem = CreateElement._createElement('ul', id, classList);
+    
+    for (var i = 0; i < values.length; i++) {
+      var item = CreateElement._createElement('li', null, null);
+      item.innerHTML = values[i];
+      elem.append(item);
+    }
+    
+    return elem;
+  }
 }
