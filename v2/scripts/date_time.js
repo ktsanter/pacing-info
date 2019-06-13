@@ -10,7 +10,7 @@ class DateTime {
   }
   
   static _getDebugNow() {
-    return null;//'10/13/2019';
+    return null; // '10/13/2019';
   }
   
   static isValidDate(str) {

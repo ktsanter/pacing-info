@@ -2,8 +2,9 @@
 //-----------------------------------------------------------------------------------
 // pacing info class
 //-----------------------------------------------------------------------------------
-// TODO: feature to open full pacing guide
-// TODO: open announcement (or announcements?) in full window
+// TODO: URL to open pacing guide in full window
+// TODO: URL to open pacing announcements in full window
+// TODO: look in to slides error messages
 //-----------------------------------------------------------------------------------
 class PacingInfo {
   constructor (params, pacingCalendarData, pacingGuideData) {
@@ -61,8 +62,15 @@ class PacingInfo {
     this._infocontainer.appendChild(guidecontainer);
     
     this._navbar.render(navbarcontainer);
-    calendarcontainer.appendChild(new PacingCalendar(this._pacingCalendarData, this._term, this._pacingGuideData.ap, true).render());
-    announcecontainer.appendChild(CreateElement.createDiv('announcementsTitle', null, this._pacingGuideData.coursename + ' (week ' + this._weekNumber + ')'));
+
+    var calendarHandler = e => this._handleCalendarSelection(e);
+    calendarcontainer.appendChild(new PacingCalendar(this._pacingCalendarData, this._term, this._pacingGuideData.ap, true, calendarHandler).render());
+
+    var elemTitle = CreateElement.createDiv('announcementsTitle', null, this._pacingGuideData.coursename + ' (week ' + this._weekNumber + ')');
+    announcecontainer.appendChild(elemTitle);
+    var handler = function (me, f) { return function(e) {me._handleOpenAnnouncementsInFullWindow(e);}} (this);
+    elemTitle.appendChild(CreateElement.createIcon('announcementsOpenIcon', 'fas fa-external-link-alt', 'open pacing info in full window', handler));
+
     announcecontainer.appendChild(CreateElement.createIframe(
       'iframeAnnouncements', 
       null, 
@@ -72,7 +80,8 @@ class PacingInfo {
       true
     ));
     
-    new PacingGuide(this._pacingGuideData).renderWeek(guidecontainer, this._weekNumber, false, true)
+    var guideHandler = e => this._handleOpenGuideInFullWindow(e);
+    new PacingGuide(this._pacingGuideData, guideHandler).renderWeek(guidecontainer, this._weekNumber, false, true)
     this._renderHomePage(homecontainer, this._pacingGuideData.ap);
 
     PacingInfo._showMe(homecontainer, this._weekNumber == 0);
@@ -108,7 +117,11 @@ class PacingInfo {
     container.style.minWidth = this._announcementsIframeWidth + 'px';
     container.style.minHeight = this._announcementsIframeHeight + 'px';
 
-    container.appendChild(CreateElement.createDiv('homepageTitle', null, this._pacingGuideData.coursename));
+    var elemTitle = CreateElement.createDiv('homepageTitle', null, this._pacingGuideData.coursename);
+    container.appendChild(elemTitle);
+    var handler = function (me, f) { return function(e) {me._handleOpenAnnouncementsInFullWindow(e);}} (this);
+    elemTitle.appendChild(CreateElement.createIcon('announcementsOpenIcon', 'fas fa-external-link-alt', 'open pacing info in full window', handler));
+    
     var contents = CreateElement.createDiv('homepageContents', null);
     container.appendChild(contents);
     
@@ -206,10 +219,29 @@ class PacingInfo {
       newWeekNumber = 0;
 
     } else {
-      newWeekNumber = this._getWeekSelections()[selection.mainIndex - 1].currentWeek;
+      var strCurrentWeek = this._getWeekSelections()[selection.mainIndex - 1].currentWeek;
+      var parsed = strCurrentWeek.match(/[0-9]+/);
+      newWeekNumber = parsed[0] * 1;
     }
 
     this._weekNumber = newWeekNumber;
     this._refresh();
+  }
+  
+  _handleCalendarSelection(selection) {
+    var parsed = selection.match(/[0-9]+/);
+    this._weekNumber = parsed[0] * 1;
+    
+    
+    this._navbar.setMenuItemActive(this._getWeekSelections().length + 1);
+    this._refresh();
+  }
+
+  _handleOpenAnnouncementsInFullWindow() {
+    console.log('TODO: open pacing announcements in full window');
+  }
+  
+  _handleOpenGuideInFullWindow() {
+    console.log('TODO: open pacing guide in full window');
   }
 }

@@ -5,13 +5,14 @@
 // TODO: 
 //-----------------------------------------------------------------------------------
 class PacingCalendar {
-  constructor (calendarData, term, ap, highlightweek) {
+  constructor (calendarData, term, ap, highlightweek, linkcallback) {
     this._appversion = '0.02';
     
     this._calendarData = calendarData;
     this._term = term;
     this._ap = ap;
     this._highlightweek = highlightweek;
+    this._linkcallback = linkcallback;
   }
 	
 	//-----------------------------------------------------------------------------
@@ -35,13 +36,19 @@ class PacingCalendar {
       headers = ['', msg1];
       
       var cells = [];
+      var cellhandlers = [];
+      var handler = function (me) { return function(e) {me._handleSelection(e);}} (this);
       for (var i = 0; i < termData.ap.weeks.length - 1; i++) {
         var weekDate = termData.start1.weeks[i].weekdate;
         if (DateTime.isNowInWeek(weekDate)) highlightWeek = i;
 
         cells.push([ 
           DateTime.formatDateShortWithWeekday(weekDate), 
-          termData.ap.weeks[i].weekname
+          '<span>' + termData.ap.weeks[i].weekname + '</span>'
+        ]);
+        cellhandlers.push([
+          null, 
+          termData.ap.weeks[i].weekname != '-' ? handler : null
         ]);
       }
       
@@ -55,13 +62,19 @@ class PacingCalendar {
       headers = ['', msg1];
       
       var cells = [];
+      var cellhandlers = [];
+      var handler = function (me) { return function(e) {me._handleSelection(e);}} (this);
       for (var i = 0; i < termData.start1.weeks.length - 1; i++) {
         var weekDate = termData.start1.weeks[i].weekdate;
         if (DateTime.isNowInWeek(weekDate)) highlightWeek = i;
 
         cells.push([ 
           DateTime.formatDateShortWithWeekday(weekDate), 
-          termData.start1.weeks[i].weekname
+          '</span>' + termData.start1.weeks[i].weekname + '</span>'
+        ]);
+        cellhandlers.push([
+          null, 
+          termData.start1.weeks[i].weekname != '-' ? handler : null
         ]);
       }
       
@@ -79,19 +92,26 @@ class PacingCalendar {
       headers = ['', msg1, msg2];
       
       var cells = [];
+      var cellhandlers = [];
+      var handler = function (me) { return function(e) {me._handleSelection(e);}} (this);
       for (var i = 0; i < termData.start1.weeks.length; i++) {
         var weekDate = termData.start1.weeks[i].weekdate;
         if (DateTime.isNowInWeek(weekDate)) highlightWeek = i;
 
         cells.push([ 
           DateTime.formatDateShortWithWeekday(weekDate), 
-          termData.start1.weeks[i].weekname,
-          termData.start2.weeks[i].weekname
+          '<span>' + termData.start1.weeks[i].weekname + '</span>',
+          '<span>' + termData.start2.weeks[i].weekname + '</span>'
+        ]);
+        cellhandlers.push([
+          null, 
+          termData.start1.weeks[i].weekname != '-' ? handler : null, 
+          termData.start2.weeks[i].weekname != '-' ? handler : null
         ]);
       }
     }
 
-    var table = CreateElement.createTable('pacingCalendar', 'table table-hover table-condensed', headers, cells);
+    var table = CreateElement.createTable('pacingCalendar', 'table table-hover table-condensed', headers, cells, cellhandlers);
     container.appendChild(table);
     if (this._highlightweek && highlightWeek != null) {
       var trNode = table.getElementsByTagName('tbody')[0].childNodes[highlightWeek];
@@ -100,4 +120,8 @@ class PacingCalendar {
 
     return container;
   }
+  
+  _handleSelection(e) {
+    this._linkcallback(e.target.innerHTML);
+  } 
 }

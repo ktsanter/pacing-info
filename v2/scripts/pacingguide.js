@@ -5,13 +5,14 @@
 // TODO:
 //-----------------------------------------------------------------------------------
 class PacingGuide {
-  constructor (pacingguideData) {
+  constructor (pacingguideData, fullWindowCallback) {
     this._pacingguideData = pacingguideData;
+    this._fullWindowCallback = fullWindowCallback;
   }    
 	
 	//-----------------------------------------------------------------------------
 	// rendering
-	//-----------------------------------------------------------------------------  
+	//-----------------------------------------------------------------------------    
   render (attachTo, displayTitle) {
     var guide = CreateElement.createDiv(null, 'guide-container');
     attachTo.appendChild(guide);
@@ -19,8 +20,14 @@ class PacingGuide {
     if (displayTitle) {
       var title = this._pacingguideData.coursename;
       title += '<br>' + this._pacingguideData.numberofweeks + ' week pacing guide';
-      guide.appendChild(CreateElement.createDiv(null, 'guide-label', title));
+      var elemTitle = CreateElement.createDiv(null, 'guide-label', title)
+      guide.appendChild(elemTitle);
+      if (this._fullWindowCallback != null) {
+        var handler = function (me, f) { return function(e) {me._handleOpenInFullWindow(e);}} (this);
+        elemTitle.appendChild(CreateElement.createIcon('pacingGuideOpenIcon', 'fas fa-external-link-alt', 'open pacing guide in full window', handler));
+      }
     }
+    
     
     var table = CreateElement.createTable('pacingGuide', 'table table-hover table-condensed');
     guide.appendChild(table);
@@ -84,7 +91,14 @@ class PacingGuide {
     if (displayWeekNumber) {
       title += 'Tasks for week ' + weekNumber;
     }
-    if (title != '') guide.appendChild(CreateElement.createDiv(null, 'guide-label', title));
+    if (title != '') {
+      var elemTitle = CreateElement.createDiv(null, 'guide-label', title);
+      guide.appendChild(elemTitle);
+      if (this._fullWindowCallback != null) {
+        var handler = function (me, f) { return function(e) {me._handleOpenInFullWindow(e);}} (this);
+        elemTitle.appendChild(CreateElement.createIcon('pacingGuideOpenIcon', 'fas fa-external-link-alt', 'open pacing guide in full window', handler));
+      }
+    }
     
     var table = CreateElement.createTable('pacingGuide', 'table table-hover table-condensed');
     guide.appendChild(table);
@@ -120,8 +134,10 @@ class PacingGuide {
           if (!rowData.graded) taskClassList += ' guide-notgraded';
           if (rowData.progresscheck) taskClassList += ' guide-progresscheck';
           
-          CreateElement.createTableCell(null, null, rowData.unit, false, row);      
-          var cell = CreateElement.createTableCell(null, taskClassList, null, false, row);
+          var cell = CreateElement.createTableCell(null, 'guide-week-unit', null, false, row);
+          cell.appendChild(CreateElement.createDiv(null, null, rowData.unit));
+          
+          cell = CreateElement.createTableCell(null, taskClassList, null, false, row);
           cell.appendChild(CreateElement.createDiv(null, null, rowData.task));
           if (this._pacingguideData.ap) CreateElement.createTableCell(null, null, DateTime.formatDateShortWithWeekday(rowData.duedate), false, row);
         }
@@ -132,5 +148,7 @@ class PacingGuide {
 	//------------------------------------------------------------------
 	// handlers
 	//------------------------------------------------------------------    
-
+  _handleOpenInFullWindow(e) {
+    this._fullWindowCallback();
+  }
 }

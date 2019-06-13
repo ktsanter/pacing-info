@@ -165,14 +165,9 @@ class CreateElement {
     return container;
   }
   
-   static createTable(id, classList, headers, contents, captionLabel) {
+   static createTable(id, classList, headers, contents, cellhandlers) {
     var table = CreateElement._createElement('table', id, classList);
-    
-    if (captionLabel) {
-      var caption = table.createCaption();
-      caption.innerHTML = captionLabel;
-    }
-    
+       
     if (headers) {
       var thead = CreateElement._createElement('thead', null, null);
       table.appendChild(thead);
@@ -193,8 +188,9 @@ class CreateElement {
         tbody.appendChild(tr);
         for (var j = 0; j < contents[i].length; j++) {
           var td = CreateElement._createElement('td', null, null);
-          td.innerHTML = contents[i][j];
           tr.appendChild(td);
+          td.innerHTML = contents[i][j];
+          if (cellhandlers && cellhandlers[i][j] != null) td.addEventListener('click', cellhandlers[i][j], false);
         }
       }
     }

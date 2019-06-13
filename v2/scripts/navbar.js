@@ -100,4 +100,8 @@ class Navbar {
   _handleSubmenu() {
     this._setActiveElement(e.target.id.slice(0, -7));
   }
+  
+  setMenuItemActive(menuItemNumber) {
+    this._setActiveElement(this._makeLinkId(menuItemNumber));
+  }
 }
