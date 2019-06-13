@@ -7,6 +7,7 @@ define(function (require) {
   require('google_webapp_interface');
   require('create_element');
   require('date_time');
+  require('navbar');
 
   document.addEventListener('DOMContentLoaded', app.init());
 });

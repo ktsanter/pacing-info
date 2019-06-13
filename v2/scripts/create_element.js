@@ -60,16 +60,17 @@ class CreateElement {
 
   static createButton(id, classList, label, title, handler) {
     var elem = CreateElement._createElement('button', id, classList);
-    elem.innerHTML = label;
-    elem.title = title;
+    if (label != null) elem.innerHTML = label;
+    if (title != null) elem.title = title;
     if (handler) elem.addEventListener('click', e => handler(e), false);
     
     return elem;
   }
   
-  static createLink(id, classList, title, href, handler) {
+  static createLink(id, classList, content, title, href, handler) {
     var elem = CreateElement._createElement('a', id, classList);
-    elem.innerHTML = title;
+    if (content) elem.innerHTML = content;
+    if (title) elem.title = title;
     elem.href = href;
     if (handler) elem.addEventListener('click', handler, false);
     

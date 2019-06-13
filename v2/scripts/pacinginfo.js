@@ -2,7 +2,6 @@
 //-----------------------------------------------------------------------------------
 // pacing info class
 //-----------------------------------------------------------------------------------
-// TODO: navbar or other menu
 // TODO: feature to open full pacing guide
 // TODO: open announcement (or announcements?) in full window
 //-----------------------------------------------------------------------------------
@@ -16,6 +15,8 @@ class PacingInfo {
     
     this._pacingCalendarData = pacingCalendarData;
     this._pacingGuideData = pacingGuideData;
+    
+    this._navbar = this._createNavbar();
     
     PacingInfo._terms = {
       semester1: { termtype: "semester", displayname: "semester 1" },
@@ -36,7 +37,7 @@ class PacingInfo {
     PacingInfo._pacingIndexFindingEndDateLink = 'https://drive.google.com/open?id=1HIl_0nFL3-9lOJ-cl3KMiOKaU0Lcsvpe';
     PacingInfo._pacingIndexFindingEndDateImage = 'https://drive.google.com/uc?id=1HIl_0nFL3-9lOJ-cl3KMiOKaU0Lcsvpe';
   }
-  
+
   _refresh() {
     var containerParent = this._infocontainer.parentNode;
     containerParent.removeChild(this._infocontainer);
@@ -46,17 +47,20 @@ class PacingInfo {
   render(attachTo) {
     this._infocontainer = CreateElement.createDiv(null, 'info-container');
     attachTo.appendChild(this._infocontainer);
-    
+
+    var navbarcontainer = CreateElement.createDiv('containerNavbar', null);    
     var homecontainer = CreateElement.createDiv('containerHome', null); 
     var announcecontainer = CreateElement.createDiv('containerAnnouncements', null);
     var calendarcontainer = CreateElement.createDiv('containerCalendar', null);
     var guidecontainer = CreateElement.createDiv('containerGuide', null);
     
+    this._infocontainer.appendChild(navbarcontainer);
     this._infocontainer.appendChild(homecontainer);
     this._infocontainer.appendChild(announcecontainer);
     this._infocontainer.appendChild(calendarcontainer);
     this._infocontainer.appendChild(guidecontainer);
     
+    this._navbar.render(navbarcontainer);
     calendarcontainer.appendChild(new PacingCalendar(this._pacingCalendarData, this._term, this._pacingGuideData.ap, true).render());
     announcecontainer.appendChild(CreateElement.createDiv('announcementsTitle', null, this._pacingGuideData.coursename + ' (week ' + this._weekNumber + ')'));
     announcecontainer.appendChild(CreateElement.createIframe(
@@ -75,14 +79,29 @@ class PacingInfo {
     PacingInfo._showMe(announcecontainer, this._weekNumber != 0);
     PacingInfo._showMe(calendarcontainer, this._weekNumber == 0);
     PacingInfo._showMe(guidecontainer, this._weekNumber != 0);    
-    
-    //temp
-    var handler = function (me) { return function(e) {me._handleUp();}} (this);
-    this._infocontainer.appendChild(CreateElement.createButton(null, null, 'up', 'up', handler));
-    handler = function (me) { return function(e) {me._handleDown();}} (this);
-    this._infocontainer.appendChild(CreateElement.createButton(null, null, 'down', 'down', handler));
   }
 
+  _createNavbar() {
+    var items = [];
+    items.push('home');
+    
+    var weeks = this._getWeekSelections();
+    
+    for (var i = 0; i < weeks.length; i++) {
+      items.push(weeks[i].currentWeek);
+    }
+    
+    var numWeeks = this._pacingGuideData.numberofweeks;
+    var subItems = [];
+    for (var i = 0; i < numWeeks; i++) {
+      subItems.push('week ' + (i + 1));
+    }
+    items.push({label: 'all', items: subItems});
+        
+    var navbarHandler = e => this._handleNavbarSelection(e);
+    return new Navbar('nav', items, navbarHandler );    
+  }
+  
   _renderHomePage(container, ap) {
     container.style.width = this._announcementsIframeWidth + 'px';
     container.style.height = this._announcementsIframeHeight + 'px';
@@ -112,29 +131,36 @@ class PacingInfo {
   }
 
   _renderHomePageWeekList() {
-    var termCalendar = this._pacingCalendarData[this._term];
     var ap = this._pacingGuideData.ap;
-
-    var dates = [];    
-    if (ap) {
-      dates.push({calendar: termCalendar.ap, currentWeek: this._findCurrentWeek(termCalendar.ap)});
-    } else {
-    dates.push({calendar: termCalendar.start1, currentWeek: this._findCurrentWeek(termCalendar.start1)});
-      if (termCalendar.hasOwnProperty('start2')) dates.push({calendar: termCalendar.start2, currentWeek: this._findCurrentWeek(termCalendar.start2)});
-    }
+    var weeks = this._getWeekSelections();
     
     var items = [];
-    for (var i = 0; i < dates.length; i++) {
+    for (var i = 0; i < weeks.length; i++) {
       var msg = '';
       if (!ap && this._term != 'summer') {
-        msg += 'if the dates of your term are ' + DateTime.formatDate(dates[i].calendar.startdate);
-        msg += ' - ' + DateTime.formatDate(dates[i].calendar.enddate) + ' then ';
+        msg += 'if the dates of your term are ' + DateTime.formatDate(weeks[i].calendar.startdate);
+        msg += ' - ' + DateTime.formatDate(weeks[i].calendar.enddate) + ' then ';
       }
-      msg += 'you should be on <strong>' + dates[i].currentWeek + '<strong>';
+      msg += 'you should be on <strong>' + weeks[i].currentWeek + '<strong>';
       items.push(msg);
     }
     
     return CreateElement.createUL(null, null, items);
+  }
+  
+  _getWeekSelections() {
+    var termCalendar = this._pacingCalendarData[this._term];
+    var ap = this._pacingGuideData.ap;
+
+    var weeks = [];    
+    if (ap) {
+      weeks.push({calendar: termCalendar.ap, currentWeek: this._findCurrentWeek(termCalendar.ap)});
+    } else {
+      weeks.push({calendar: termCalendar.start1, currentWeek: this._findCurrentWeek(termCalendar.start1)});
+      if (termCalendar.hasOwnProperty('start2')) weeks.push({calendar: termCalendar.start2, currentWeek: this._findCurrentWeek(termCalendar.start2)});
+    }
+    
+    return weeks;
   }
   
   static _makeLinkToAnnouncementsPage(baseAnnouncementsLink, pageNumber) {
@@ -150,19 +176,14 @@ class PacingInfo {
     var currentWeek = null;
     var weeksInShortTerm = {semester: 18, trimester: 12, summer: 10}
     
-    var firstWeek = termCalendar.weeks[0];
-    var lastWeek = termCalendar.weeks[termCalendar.weeks.length - 1];
-    
-    if (DateTime.compareDateToNow(firstWeek.weekdate) < 0) {
-      currentWeek = 'week 1';
-    } else if (DateTime.compareDateToNow(lastWeek.weekdate) > 0) {
-      currentWeek = 'week ' + weeksInShortTerm[this._shortTerm];
-    }
-    
-    for (var i = 0; i < termCalendar.weeks.length && currentWeek == null; i++) {
+    for (var i = 0; i < termCalendar.weeks.length; i++) {
       var week = termCalendar.weeks[i];
-      if (DateTime.isNowInWeek(week.weekdate)) currentWeek = week.weekname;
+      if (week.weekname != '-') {
+        if (DateTime.compareDateToNow(week.weekdate, 0) <= 0) currentWeek = week.weekname;
+      }
     }
+    
+    if (currentWeek == null) currentWeek = 'week 1';
     
     return currentWeek;
   }
@@ -175,13 +196,20 @@ class PacingInfo {
     }
   }
   
-  _handleUp() {
-    this._weekNumber++;
-    this._refresh();
-  }
-  
-  _handleDown() {
-    this._weekNumber--;
+  _handleNavbarSelection(selection) {
+    var newWeekNumber = this._weekNumber;
+
+    if (selection.subIndex >= 0) {
+      newWeekNumber = selection.subIndex + 1;
+      
+    } else if (selection.mainIndex == 0) {
+      newWeekNumber = 0;
+
+    } else {
+      newWeekNumber = this._getWeekSelections()[selection.mainIndex - 1].currentWeek;
+    }
+
+    this._weekNumber = newWeekNumber;
     this._refresh();
   }
 }

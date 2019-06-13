@@ -6,7 +6,7 @@
 //-----------------------------------------------------------------------------------
 class PacingCalendar {
   constructor (calendarData, term, ap, highlightweek) {
-    this._appversion = '0.01';
+    this._appversion = '0.02';
     
     this._calendarData = calendarData;
     this._term = term;
@@ -94,7 +94,6 @@ class PacingCalendar {
     var table = CreateElement.createTable('pacingCalendar', 'table table-hover table-condensed', headers, cells);
     container.appendChild(table);
     if (this._highlightweek && highlightWeek != null) {
-      console.log('highlightWeek= ' + highlightWeek);
       var trNode = table.getElementsByTagName('tbody')[0].childNodes[highlightWeek];
       trNode.classList.add('highlightweek');
     }
