@@ -2,7 +2,7 @@
 //-----------------------------------------------------------------------------------
 // embed and link maker for pacing info
 //-----------------------------------------------------------------------------------
-// TODO:
+// TODO: add lookup for annnouncement links
 //-----------------------------------------------------------------------------------
 
 const app = function () {
@@ -17,6 +17,7 @@ const app = function () {
   };
   
   const baseURLforPacingInfo = 'https://ktsanter.github.io/pacing-info/landing_pacinginfo.html';  
+  const resizerScript = 'https://drive.google.com/uc?id=1DtVaRfly5LQtGT-jIOFQZ3KiKdCPy7Zn';
 
 	//---------------------------------------
 	// get things going
@@ -187,8 +188,26 @@ const app = function () {
   }
   
   function _makeAndCopyEmbed() {
-    console.log('make and copy embed');
-    _copyToClipboard('make and copy embed');
+    var instance = document.getElementById('inputInstance').value;
+
+    var embedCode = '<p>';
+    embedCode += '<script type="text/javascript" src="' + resizerScript + '"></script>';
+    embedCode += '</p>';
+    
+    embedCode += '<p>';
+    embedCode += '<iframe id="iframe-pacingindex' + instance + '"';
+    embedCode += ' width="100%"';
+    embedCode += ' height="240"';
+    embedCode += ' src="' + _makeURL() + '"';
+    embedCode += ' frameborder="0"';
+    embedCode += ' allowfullscreen="true"';
+    embedCode += ' mozallowfullscreen="true"';
+    embedCode += ' webkitallowfullscreen="true"';
+    embedCode += '>';
+    embedCode += '</iframe>';
+    embedCode += '</p>';
+    
+    _copyToClipboard(embedCode);
     page.notice.setNotice('copied embed code');
   }
   
