@@ -22,6 +22,7 @@
   vertical-align: text-top;  
   margin-right: 0.6em;
   margin-top: -0.25em;
+  position: relative;
 }
 
 #iframeAnnouncements {
@@ -128,7 +129,6 @@
 #homepageTitle {
   font-size: 1.0em;
   font-weight: bold;
-  margin-bottom: 0.4em;
   border-radius: 8px 8px 0px 0px;
   color: white;
   background-color: #115e6e;
@@ -136,7 +136,8 @@
 }
 
 #homepageContents {
-  margin-left: 0.2em;
+  border: 1px solid #ccc;
+  padding: 0.4em 0em 4.3em 0.4em;
 }
 
 #helpImage1 {
@@ -168,6 +169,16 @@
   margin-right: 0.2em;
   padding-top: 0.2em;
   float: right;
+}
+
+#announcementsMask {
+  position: absolute;
+  top: 20px;
+  left: 0px;
+  background-color: rgba(0,0,0,0);
+  border-color: #ccc;
+  border-style: solid;
+  border-width: 0px 2px 1px 1px;
 }
 
 /*-- end of announcements --*/

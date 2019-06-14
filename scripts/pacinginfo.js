@@ -2,8 +2,7 @@
 //-----------------------------------------------------------------------------------
 // pacing info class
 //-----------------------------------------------------------------------------------
-// TODO: URL to open pacing guide in full window
-// TODO: look in to slides error messages
+// TODO: look into slides error messages
 //-----------------------------------------------------------------------------------
 class PacingInfo {
   constructor (params, pacingCalendarData, pacingGuideData) {
@@ -79,6 +78,11 @@ class PacingInfo {
       PacingInfo._announcementsIframeHeight, 
       true
     ));
+    
+    var mask = CreateElement.createDiv('announcementsMask', null);
+    announcecontainer.appendChild(mask);
+    mask.style.width = PacingInfo._announcementsIframeWidth + 'px';
+    mask.style.height = PacingInfo._announcementsIframeHeight + 'px';
     
     var guideHandler = e => this._handleOpenGuideInFullWindow(e);
     new PacingGuide(this._pacingGuideData, guideHandler).renderWeek(guidecontainer, this._weekNumber, false, true)

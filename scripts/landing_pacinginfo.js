@@ -2,7 +2,6 @@
 //-----------------------------------------------------------------------------------
 // test driver for pacing info
 //-----------------------------------------------------------------------------------
-// TODO: determine base URL for full pacing guide
 // TODO: make announcements bigger (params to pacinginfo class?)
 // TODO: resize width ?
 // TODO: resize when dropdown menu?
@@ -85,7 +84,10 @@ const app = function () {
 	// page rendering
 	//-----------------------------------------------------------------------------  
   function _renderStandardElements() {
-    page.notice = new StandardNotice(page.body, page.body);
+    var container = CreateElement.createDiv(null, null);
+    page.body.appendChild(container);
+    container.style.display = 'inline-block';
+    page.notice = new StandardNotice(container, container);
   }
   
   function _renderPage() {

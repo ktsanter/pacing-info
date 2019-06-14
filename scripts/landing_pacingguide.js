@@ -66,11 +66,11 @@ const app = function () {
 	// page rendering
 	//-----------------------------------------------------------------------------  
   function _renderStandardElements() {
-    /*
-    var title = CreateElement.createDiv(null, 'standard-title', appname);
-    page.body.appendChild(title);
-    */
-    page.notice = new StandardNotice(page.body, page.body);
+    var container = CreateElement.createDiv(null, null);
+    page.body.appendChild(container);
+    container.style.display = 'inline-block';
+   
+    page.notice = new StandardNotice(container, container);
   }
   
   function _renderPage() {
@@ -95,7 +95,7 @@ const app = function () {
   async function _loadPacingGuideData(coursekey, term) {
     var result = null;
     
-    page.notice.setNotice('loading...', true);
+    page.notice.setNotice('loading pacing guide data...', true);
     var requestParams = {coursekey: coursekey, term: term};
     var requestResult = await googleSheetWebAPI.webAppGet(apiInfo, 'pacingguide', requestParams, page.notice);
 
