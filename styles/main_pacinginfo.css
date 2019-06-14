@@ -14,7 +14,7 @@
 /*----------------------------------*/
 body {
 	color: black;
-	background-color: rbga(255, 255, 255, 0);
+	background-color: rbga(0,0,0,0);
 	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 	font-size: 13px;
 }
