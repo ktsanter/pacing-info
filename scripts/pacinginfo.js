@@ -13,7 +13,7 @@ class PacingInfo {
     this._urlAnnouncements = params.urlAnnouncements;
     this._weekNumber = params.weekNumber;
     this._baseURLForFullPacingGuide = params.baseURLForFullPacingGuide;
-    
+
     this._pacingCalendarData = pacingCalendarData;
     this._pacingGuideData = pacingGuideData;
     

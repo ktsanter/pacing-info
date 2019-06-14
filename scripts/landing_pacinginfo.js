@@ -102,7 +102,7 @@ const app = function () {
     if (pacingguideData == null) return;
     
     var params = {
-      coursekey: settings.courekey,
+      coursekey: settings.coursekey,
       term: settings.term,
       shortTerm: settings.shortTerm,
       urlAnnouncements: settings.announcements,
