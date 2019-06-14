@@ -16,7 +16,7 @@ const app = function () {
     apikey: 'MVpacinginfov2'
   };
   
-  const baseURLForFullPacingGuide = '[figure me out]';
+  const baseURLForFullPacingGuide = 'https://ktsanter.github.io/pacing-info/landing_pacingguide.html';
   
   const courses = {
     game_design: "Advanced Programming: Game Design & Animation",

@@ -3,6 +3,10 @@
 // test driver for pacing info
 //-----------------------------------------------------------------------------------
 // TODO: determine base URL for full pacing guide
+// TODO: make announcements bigger (params to pacinginfo class?)
+// TODO: resize width ?
+// TODO: resize when dropdown menu?
+// TODO: background (gradient?)
 //-----------------------------------------------------------------------------------
 
 const app = function () {
@@ -16,7 +20,7 @@ const app = function () {
     apikey: 'MVpacinginfov2'
   };
   
-  const baseURLForFullPacingGuide = '[figure me out]';
+  const baseURLForFullPacingGuide = 'https://ktsanter.github.io/pacing-info/landing_pacingguide.html';
 
   const terms = {
     semester1: { termtype: "semester", displayname: "semester 1" },

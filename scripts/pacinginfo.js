@@ -245,6 +245,6 @@ class PacingInfo {
     var url = this._baseURLForFullPacingGuide;
     url += '?coursekey=' + this._coursekey;
     url += '&term=' + this._shortTerm;
-    console.log('TODO: open pacing guide in full window: ' + url);
+    window.open(url, '_blank');
   }
 }
