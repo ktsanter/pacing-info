@@ -28,7 +28,6 @@ class PacingGuide {
       }
     }
     
-    
     var table = CreateElement.createTable('pacingGuide', null);
     guide.appendChild(table);
 

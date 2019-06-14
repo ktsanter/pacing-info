@@ -68,14 +68,15 @@
   display: block;
   color: white;
   background-color: var(--MV-deep-teal);
-  text-align: center;
-  padding: 0.4em 0.4em;
+  text-align: left;
+  padding: 0.4em 0.8em;
+  min-width: 5em;
   text-decoration: none;
 }
 
 .navbar2 .active {
   color: white;
-  background-color: var(--MV-green);
+  background-color: var(--MV-light-teal);
 }
 
 .navbar2-dropdown {}
@@ -85,8 +86,9 @@
   display: block;
   color: white;
   background-color: var(--MV-deep-teal);
-  text-align: center;
-  padding: 0.4em 0.4em;
+  text-align: left;
+  padding: 0.4em 0.8em;
+  min-width: 5em;  
   border: none;  
 }
 
@@ -154,7 +156,7 @@
 #announcementsTitle {
   font-size: 0.9em;
   font-weight: bold;
-  margin-bottom: 0.4em;
+  /*margin-bottom: 0.4em;*/
   border-radius: 8px 8px 0px 0px;
   color: white;
   background-color: #115e6e;
@@ -181,7 +183,7 @@
 .guide-label {
   font-size: 1.0em;
   font-weight: bold;
-  margin-bottom: 0.4em;
+  /*margin-bottom: 0.4em;*/
   border-radius: 8px 8px 0px 0px;
   color: white;
   background-color: #115e6e;
@@ -198,6 +200,7 @@
 #pacingGuide {
   font-size: 1.0em;
   border-collapse: collapse;
+  border: 1px solid #ccc;
 }
 
 #pacingGuide thead tr {
@@ -254,7 +257,7 @@
 .calendar-label {
   font-size: 1.0em;
   font-weight: bold;
-  margin-bottom: 0.4em;
+  /*margin-bottom: 0.4em;*/
   border-radius: 8px 8px 0px 0px;
   color: white;
   background-color: #115e6e;
@@ -264,6 +267,7 @@
 #pacingCalendar {
   font-size: 1.0em;
   border-collapse: collapse;
+  border: 1px solid #ccc;
 }
 
 #pacingCalendar thead tr {

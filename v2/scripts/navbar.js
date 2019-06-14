@@ -40,7 +40,7 @@ class Navbar {
   }
   
   _renderSubmenuLink(item, linkid, linkhandler) {
-    var submenuhandler = function (me) { return function(e) {me._handleSubmenu(e);}} (this);
+    var submenuhandler = null;
 
     var dropdown = CreateElement.createDiv(null, 'navbar2-dropdown');
     dropdown.appendChild(CreateElement.createButton(linkid, 'navbar2-dropdown-button navbar2-submenu', item.label, null, submenuhandler));
@@ -95,10 +95,6 @@ class Navbar {
     this._handler(selection);
     
     return false;
-  }
-  
-  _handleSubmenu() {
-    this._setActiveElement(e.target.id.slice(0, -7));
   }
   
   setMenuItemActive(menuItemNumber) {

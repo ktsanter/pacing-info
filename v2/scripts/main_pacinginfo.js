@@ -2,7 +2,7 @@
 //-----------------------------------------------------------------------------------
 // test driver for pacing info
 //-----------------------------------------------------------------------------------
-// TODO: add forced date for testing 
+// TODO: determine base URL for full pacing guide
 //-----------------------------------------------------------------------------------
 
 const app = function () {
@@ -15,6 +15,8 @@ const app = function () {
     apibase: 'https://script.google.com/macros/s/AKfycbzp-DIszFmZMUasJwHnzwcQ9VE3NmI2QmbUvawRMq8fnDfuBCQ/exec',
     apikey: 'MVpacinginfov2'
   };
+  
+  const baseURLForFullPacingGuide = '[figure me out]';
   
   const courses = {
     game_design: "Advanced Programming: Game Design & Animation",
@@ -37,16 +39,6 @@ const app = function () {
 
   const defaultAnnouncements = 'https://docs.google.com/presentation/d/e/2PACX-1vSrO9MidzGYwh7hBtswB24aWRdG-xbbq3EolP_pO-J_yNk1nzFutJSJs3JZXd0NPASLFa4GIPSq7R86/embed?start=false&loop=false&delayms=3000';
 
-  const announcementsIframeWidth = 600;
-  const announcementsIframeHeight = 450;
-  
-  const pacingIndexMenuLink = 'https://drive.google.com/open?id=172L_BNdFQ90jsBvfFTMaeiQ1jP3zGgsQ';
-  const pacingIndexMenuLinkAP = 'https://drive.google.com/open?id=11qDWqfUHmJK_oZV0EXkuXAv14euIwjMd';
-  const pacingIndexMenuImage = 'https://drive.google.com/uc?id=172L_BNdFQ90jsBvfFTMaeiQ1jP3zGgsQ';
-  const pacingIndexMenuImageAP = 'https://drive.google.com/uc?id=11qDWqfUHmJK_oZV0EXkuXAv14euIwjMd';
-  const pacingIndexFindingEndDateLink = 'https://drive.google.com/open?id=1HIl_0nFL3-9lOJ-cl3KMiOKaU0Lcsvpe';
-  const pacingIndexFindingEndDateImage = 'https://drive.google.com/uc?id=1HIl_0nFL3-9lOJ-cl3KMiOKaU0Lcsvpe';
-    
 	//---------------------------------------
 	// get things going
 	//----------------------------------------
@@ -123,7 +115,8 @@ const app = function () {
       term: _getTerm(),
       shortTerm: _getShortTerm(),
       urlAnnouncements: _getAnnouncementsURL(),
-      weekNumber: 0
+      weekNumber: 0,
+      baseURLForFullPacingGuide: baseURLForFullPacingGuide
     };
     var info = new PacingInfo(params, settings.pacingcalendardata, pacingguideData);
     info.render(page.infocontainer);

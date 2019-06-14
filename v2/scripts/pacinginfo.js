@@ -12,6 +12,7 @@ class PacingInfo {
     this._shortTerm = params.shortTerm;
     this._urlAnnouncements = params.urlAnnouncements;
     this._weekNumber = params.weekNumber;
+    this._baseURLForFullPacingGuide = params.baseURLForFullPacingGuide;
     
     this._pacingCalendarData = pacingCalendarData;
     this._pacingGuideData = pacingGuideData;
@@ -241,6 +242,9 @@ class PacingInfo {
   }
   
   _handleOpenGuideInFullWindow() {
-    console.log('TODO: open pacing guide in full window');
+    var url = this._baseURLForFullPacingGuide;
+    url += '?coursekey=' + this._coursekey;
+    url += '&term=' + this._shortTerm;
+    console.log('TODO: open pacing guide in full window: ' + url);
   }
 }
