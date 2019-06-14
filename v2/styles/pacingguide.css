@@ -1,0 +1,66 @@
+/*-------------------------------------------------------------------*/
+ /* styling for pacing guide class                                   */
+ /*------------------------------------------------------------------*/
+
+.guide-label {
+  font-size: 1.0em;
+  font-weight: bold;
+  border-radius: 8px 8px 0px 0px;
+  color: white;
+  background-color: #2f8d98;
+  padding: 0.3em;
+}
+
+#pacingGuide {
+  font-size: 1.0em;
+  border-collapse: collapse;
+  border: 1px solid #ccc;
+}
+
+#pacingGuide thead tr {
+  background-color: white;
+}
+ 
+#pacingGuide .guide-oddweek {
+  background-color: #eee;
+}
+#pacingGuide .guide-evenweek {
+  background-color: #fff;
+}
+
+#pacingGuide tbody tr:hover {
+  background-color: #ccc;
+}
+#pacingGuide tbody tr:hover {
+  background-color: #ccc;
+}
+
+#pacingGuide td, #pacingGuide th {
+  padding-right: 1.3em;
+  border: 1px solid #ccc;
+}
+
+.guide-week-unit div {
+ /* max-width: 20em;*/
+}
+
+.guide-week div {
+  max-width: 40em;
+}
+
+.guide-week-long div {
+  max-width: 36em;
+  padding-top: 0.8em;
+  padding-bottom: 0.8em;
+}
+
+.guide-progresscheck {
+  font-style: italic;
+  font-weight: bold;
+  color: blue;
+}
+
+.guide-notgraded {
+  font-style: italic;
+}
+

@@ -1,0 +1,310 @@
+/*-------------------------------------------------------------------*/
+ /* styling for pacing info class                                   */
+ /*------------------------------------------------------------------*/
+#containerNavbar {
+  margin-bottom: 0.2em;
+}
+
+#containerHome {
+  display: none;
+  vertical-align: text-top;  
+  font-size: 0.9em;
+  background-color: white;
+  margin-right: 0.6em;
+  margin-top: -0.25em;
+  border-radius: 8px 8px 0px 0px;
+  min-width: 600px;
+  min-height: 450px;
+}
+
+#containerAnnouncements {
+  display: inline-block;
+  vertical-align: text-top;  
+  margin-right: 0.6em;
+  margin-top: -0.25em;
+}
+
+#iframeAnnouncements {
+  border:none;
+  margin-top: -0.35em;
+}
+
+#containerCalendar {
+  display: inline-block;
+}
+
+#containerGuide {
+  display: inline-block;
+}
+
+/*-- navbar --*/
+.navbar2-colorscheme {
+  --MV-light-teal: #2f8d98;
+  --MV-dark-teal: #115e6e;
+  --MV-deep-teal: #093c44;
+  --MV-green: #b5cd34;
+  --MV-orange: #f7941e;
+  --MV-light-gray: #6d6e71;
+  --MV-dark-gray: #414042;
+}
+
+.navbar2 {
+  position: relative;
+}
+
+.navbar2 ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: var(--MV-deep-teal);
+}
+
+.navbar2 li {
+  float: left;
+}
+
+.navbar2 li a {
+  display: block;
+  color: white;
+  background-color: var(--MV-deep-teal);
+  text-align: left;
+  padding: 0.4em 0.8em;
+  min-width: 5em;
+  text-decoration: none;
+}
+
+.navbar2 .active {
+  color: white;
+  background-color: var(--MV-light-teal);
+}
+
+.navbar2-dropdown {}
+
+.navbar2-dropdown-button {
+  float: left;
+  display: block;
+  color: white;
+  background-color: var(--MV-deep-teal);
+  text-align: left;
+  padding: 0.4em 0.8em;
+  min-width: 5em;  
+  border: none;  
+}
+
+.navbar2 a:hover:not(.active) {
+  background-color: var(--MV-dark-teal);
+}
+
+.navbar2-dropdown-button:hover:not(.active) {
+  background-color: var(--MV-dark-teal);
+}
+
+.navbar2-dropdown-content {
+  display: none;
+  position: absolute;
+  top: 2.0em;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.navbar2 .navbar2-dropdown-item {
+  color: black;
+  background-color: #eee;
+}
+
+.navbar2 .navbar2-dropdown-item:hover {
+  color: white;
+  background-color: var(--MV-deep-teal) !important;
+}
+
+.navbar2-dropdown:hover .navbar2-dropdown-content {
+  display: block;
+}
+
+/*-- end of navbar --*/
+
+/*-- home page --*/
+#homepageTitle {
+  font-size: 1.0em;
+  font-weight: bold;
+  margin-bottom: 0.4em;
+  border-radius: 8px 8px 0px 0px;
+  color: white;
+  background-color: #115e6e;
+  padding: 0.3em;  
+}
+
+#homepageContents {
+  margin-left: 0.2em;
+}
+
+#helpImage1 {
+  width: 180px;
+  margin-left: 40px;
+  border: 1px solid #AAAAAA;  
+}
+
+#helpImage2 {
+  width: 360px;
+  margin-left: 40px;
+  border: 1px solid #AAAAAA;  
+}
+/*-- end of home page --*/
+
+/*-- announcements --*/
+#announcementsTitle {
+  font-size: 0.9em;
+  font-weight: bold;
+  /*margin-bottom: 0.4em;*/
+  border-radius: 8px 8px 0px 0px;
+  color: white;
+  background-color: #115e6e;
+  padding: 0.3em;
+}
+
+#announcementsOpenIcon {
+  margin-left: 0.4em;
+  margin-right: 0.2em;
+  padding-top: 0.2em;
+  float: right;
+}
+
+/*-- end of announcements --*/
+
+/*-- pacing guide --*/
+.guide-container {
+  font-size: 0.9em;
+  display: inline-block;
+  background-color: white;
+  border-radius: 8px 8px 0px 0px;
+}
+
+.guide-label {
+  font-size: 1.0em;
+  font-weight: bold;
+  /*margin-bottom: 0.4em;*/
+  border-radius: 8px 8px 0px 0px;
+  color: white;
+  background-color: #115e6e;
+  padding: 0.3em;
+}
+
+#pacingGuideOpenIcon {
+  margin-left: 0.4em;
+  margin-right: 0.2em;
+  padding-top: 0.2em;
+  float: right;
+}
+
+#pacingGuide {
+  font-size: 1.0em;
+  border-collapse: collapse;
+  border: 1px solid #ccc;
+}
+
+#pacingGuide thead tr {
+  background-color: white;
+}
+ 
+#pacingGuide tbody tr:nth-child(even) {
+  background-color: #eee;
+}
+#pacingGuide tbody tr:nth-child(odd) {
+  background-color: #fff;
+}
+
+#pacingGuide tbody tr:nth-child(even):hover {
+  background-color: #ccc;
+}
+#pacingGuide tbody tr:nth-child(odd):hover {
+  background-color: #ccc;
+}
+
+.guide-week-unit div {
+  max-width: 20em;
+}
+
+.guide-week div {
+  max-width: 20em;
+}
+
+.guide-week-long div {
+  max-width: 36em;
+  padding-top: 0.2em;
+  padding-bottom: 0.2em;
+}
+
+.guide-progresscheck {
+  font-style: italic;
+  font-weight: bold;
+  color: blue;
+}
+
+.guide-notgraded {
+  font-style: italic;
+}
+/*-- end of pacing guide --*/
+
+/*-- pacing calender --*/
+.calendar-container {
+  font-size: 0.9em;
+  display: inline-block;
+  background-color: white;
+  border-radius: 8px 8px 0px 0px;
+}
+
+.calendar-label {
+  font-size: 1.0em;
+  font-weight: bold;
+  /*margin-bottom: 0.4em;*/
+  border-radius: 8px 8px 0px 0px;
+  color: white;
+  background-color: #115e6e;
+  padding: 0.3em;
+}
+
+#pacingCalendar {
+  font-size: 1.0em;
+  border-collapse: collapse;
+  border: 1px solid #ccc;
+}
+
+#pacingCalendar thead tr {
+  background-color: white;
+}
+ 
+#pacingCalendar tbody tr:nth-child(even) {
+  background-color: #eee;
+}
+#pacingCalendar tbody tr:nth-child(odd) {
+  background-color: #fff;
+}
+
+#pacingCalendar tbody tr:nth-child(even):hover {
+  background-color: #ccc;
+}
+#pacingCalendar tbody tr:nth-child(odd):hover {
+  background-color: #ccc;
+}
+
+#pacingCalendar td, #pacingCalendar th {
+  text-align: center;
+  padding-left: 2.0em;
+  padding-right: 2.0em;
+}
+
+#pacingCalendar td span:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.highlightweek {
+  background-color: lightblue;
+  font-weight: bold;
+}
+
+.highlightweek:hover {
+  background-color: lightblue !important; 
+}
+/*-- end of pacing calendar --*/

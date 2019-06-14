@@ -1,0 +1,53 @@
+/*-------------------------------------------------------------------*/
+ /* styling for pacing guide test page                               */
+ /*------------------------------------------------------------------*/
+
+/*----------------------------------*/
+/* Michigan Virtual brand standards */
+/* light teal:  #2f8d98             */
+/* dark teal:   #115e6e             */
+/* deep teal:   #093c44             */
+/* green:       #b5cd34             */
+/* orange:      #b5cd34             */
+/* light gray:  #6d6e71             */
+/* dark gray:   #414042             */
+/*----------------------------------*/
+body {
+	color: black;
+	background-color: #eee;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-size: 13px;
+  margin-left: 0.4em;
+}
+
+.standard-title {
+	color: white;
+	background-color: #093c44;
+  border: 1px solid white;
+  border-radius: 6px;
+  font-size: 1.2em;
+  padding-left: 0.4em;
+  margin-top: 0em;
+  margin-bottom: 0.4em;
+}
+
+.section-controls {
+  display: inline-block;
+  margin-bottom: 1.0em;
+  padding: 0.4em 0.4em;
+}
+
+.guide-control {
+  margin-bottom: 0.6em;
+  margin-right: 0.6em;
+  font-weight: normal;
+}
+
+#outerGuideContainer {
+  display: inline-block;
+  color: black;
+  background-color: white;
+  border-radius: 8px;
+  font-size: 0.9em;
+  /*padding: 0.2em 0.2em;*/
+}
