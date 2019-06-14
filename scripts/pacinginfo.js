@@ -2,7 +2,7 @@
 //-----------------------------------------------------------------------------------
 // pacing info class
 //-----------------------------------------------------------------------------------
-// TODO: look into slides error messages
+// TODO:
 //-----------------------------------------------------------------------------------
 class PacingInfo {
   constructor (params, pacingCalendarData, pacingGuideData) {
@@ -70,19 +70,21 @@ class PacingInfo {
     var handler = function (me, f) { return function(e) {me._handleOpenAnnouncementsInFullWindow(e);}} (this);
     elemTitle.appendChild(CreateElement.createIcon('announcementsOpenIcon', 'fas fa-external-link-alt', 'open pacing info in full window', handler));
 
-    announcecontainer.appendChild(CreateElement.createIframe(
-      'iframeAnnouncements', 
-      null, 
-      PacingInfo._makeLinkToAnnouncementsPage(this._urlAnnouncements, this._weekNumber), 
-      PacingInfo._announcementsIframeWidth, 
-      PacingInfo._announcementsIframeHeight, 
-      true
-    ));
-    
-    var mask = CreateElement.createDiv('announcementsMask', null);
-    announcecontainer.appendChild(mask);
-    mask.style.width = PacingInfo._announcementsIframeWidth + 'px';
-    mask.style.height = PacingInfo._announcementsIframeHeight + 'px';
+    if (this._weekNumber > 0) {
+      announcecontainer.appendChild(CreateElement.createIframe(
+        'iframeAnnouncements', 
+        null, 
+        this._weeknumber == 0 ? null : PacingInfo._makeLinkToAnnouncementsPage(this._urlAnnouncements, this._weekNumber), 
+        PacingInfo._announcementsIframeWidth, 
+        PacingInfo._announcementsIframeHeight, 
+        true
+      ));
+      
+      var mask = CreateElement.createDiv('announcementsMask', null);
+      announcecontainer.appendChild(mask);
+      mask.style.width = PacingInfo._announcementsIframeWidth + 'px';
+      mask.style.height = PacingInfo._announcementsIframeHeight + 'px';
+    }
     
     var guideHandler = e => this._handleOpenGuideInFullWindow(e);
     new PacingGuide(this._pacingGuideData, guideHandler).renderWeek(guidecontainer, this._weekNumber, false, true)

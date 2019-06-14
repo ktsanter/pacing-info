@@ -232,6 +232,10 @@
   background-color: #ccc;
 }
 
+#pacingGuide td {
+  vertical-align: top;
+}
+
 .guide-week-unit div {
   max-width: 15em;
 }

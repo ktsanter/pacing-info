@@ -40,6 +40,10 @@
   border: 1px solid #ccc;
 }
 
+#pacingGuide td {
+  vertical-align: top;
+}
+
 .guide-week-unit div {
  /* max-width: 20em;*/
 }

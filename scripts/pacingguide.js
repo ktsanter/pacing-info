@@ -103,7 +103,7 @@ class PacingGuide {
     guide.appendChild(table);
 
     var headers = ['Unit', 'Task'];
-    if (this._pacingguideData.ap) headers = headers.concat(['due']);
+    if (this._pacingguideData.ap) headers = headers.concat(['Due']);
   
     var thead = CreateElement._createElement('thead', null, null);
     table.appendChild(thead);
