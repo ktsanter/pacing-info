@@ -39,7 +39,8 @@ const app = function () {
     var expectedQueryParams = [
       {key: 'coursekey', required: true},
       {key: 'term', required: true},
-      {key: 'announcements', required: true}
+      {key: 'announcements', required: true},
+      {key: 'instance', require: false}
     ];
         
     if (_initializeSettings(expectedQueryParams)) {
@@ -106,6 +107,7 @@ const app = function () {
     };
 
     new PacingInfo(params, pacingguideData.calendar, pacingguideData.guide).render(page.infocontainer);
+    _postHeightChangeMessage();
   }
   
 	//------------------------------------------------------------------
@@ -130,6 +132,15 @@ const app = function () {
     return result;
   }
   
+	//-----------------------------------------------------------------------------------
+	// iframe responsive height - post message to parent (if in an iframe) to resizeBy
+	//-----------------------------------------------------------------------------------
+	function _postHeightChangeMessage() {
+		var msg = document.body.scrollHeight + '-' + 'PacingIndex' + '-' + settings.instance;
+		console.log('posting to parent: ' + msg);
+		window.parent.postMessage(msg, "*");
+	}
+    
 	//---------------------------------------
 	// return from wrapper function
 	//----------------------------------------
