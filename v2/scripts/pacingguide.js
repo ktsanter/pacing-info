@@ -29,7 +29,7 @@ class PacingGuide {
     }
     
     
-    var table = CreateElement.createTable('pacingGuide', 'table table-hover table-condensed');
+    var table = CreateElement.createTable('pacingGuide', null);
     guide.appendChild(table);
 
     var headers = ['week', 'unit', 'task', 'complete?'];
@@ -100,10 +100,10 @@ class PacingGuide {
       }
     }
     
-    var table = CreateElement.createTable('pacingGuide', 'table table-hover table-condensed');
+    var table = CreateElement.createTable('pacingGuide', null);
     guide.appendChild(table);
 
-    var headers = ['unit', 'task'];
+    var headers = ['Unit', 'Task'];
     if (this._pacingguideData.ap) headers = headers.concat(['due']);
   
     var thead = CreateElement._createElement('thead', null, null);

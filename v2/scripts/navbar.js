@@ -1,5 +1,5 @@
 //-----------------------------------------------------------
-// Bootstrap navigation bar class
+// navigation bar class
 //-----------------------------------------------------------
 // TODO:
 //-----------------------------------------------------------
@@ -43,7 +43,7 @@ class Navbar {
     var submenuhandler = function (me) { return function(e) {me._handleSubmenu(e);}} (this);
 
     var dropdown = CreateElement.createDiv(null, 'navbar2-dropdown');
-    dropdown.appendChild(CreateElement.createButton(linkid, 'navbar2-dropdown-button', item.label, null, submenuhandler));
+    dropdown.appendChild(CreateElement.createButton(linkid, 'navbar2-dropdown-button navbar2-submenu', item.label, null, submenuhandler));
     
     var submenuContent = CreateElement.createDiv(null, 'navbar2-dropdown-content');
     dropdown.appendChild(submenuContent);

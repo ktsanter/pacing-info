@@ -196,8 +196,26 @@
 }
 
 #pacingGuide {
-  font-size: 0.9em;
-  margin-bottom: 0px;
+  font-size: 1.0em;
+  border-collapse: collapse;
+}
+
+#pacingGuide thead tr {
+  background-color: white;
+}
+ 
+#pacingGuide tbody tr:nth-child(even) {
+  background-color: #eee;
+}
+#pacingGuide tbody tr:nth-child(odd) {
+  background-color: #fff;
+}
+
+#pacingGuide tbody tr:nth-child(even):hover {
+  background-color: #ccc;
+}
+#pacingGuide tbody tr:nth-child(odd):hover {
+  background-color: #ccc;
 }
 
 .guide-week-unit div {
@@ -244,21 +262,37 @@
 }
 
 #pacingCalendar {
-  font-size: 0.9em;
-  margin-bottom: 0px;
-  text-align: center;
+  font-size: 1.0em;
+  border-collapse: collapse;
 }
 
-#pacingCalendar tr {
- /* height: 1em;*/
+#pacingCalendar thead tr {
+  background-color: white;
+}
+ 
+#pacingCalendar tbody tr:nth-child(even) {
+  background-color: #eee;
+}
+#pacingCalendar tbody tr:nth-child(odd) {
+  background-color: #fff;
 }
 
-#pacingCalendar th {
+#pacingCalendar tbody tr:nth-child(even):hover {
+  background-color: #ccc;
+}
+#pacingCalendar tbody tr:nth-child(odd):hover {
+  background-color: #ccc;
+}
+
+#pacingCalendar td, #pacingCalendar th {
   text-align: center;
+  padding-left: 2.0em;
+  padding-right: 2.0em;
 }
 
 #pacingCalendar td span:hover {
   text-decoration: underline;
+  cursor: pointer;
 }
 
 .highlightweek {

@@ -3,7 +3,6 @@
 // pacing info class
 //-----------------------------------------------------------------------------------
 // TODO: URL to open pacing guide in full window
-// TODO: URL to open pacing announcements in full window
 // TODO: look in to slides error messages
 //-----------------------------------------------------------------------------------
 class PacingInfo {
@@ -238,7 +237,7 @@ class PacingInfo {
   }
 
   _handleOpenAnnouncementsInFullWindow() {
-    console.log('TODO: open pacing announcements in full window');
+    window.open(this._urlAnnouncements, '_blank');
   }
   
   _handleOpenGuideInFullWindow() {

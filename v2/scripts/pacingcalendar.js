@@ -111,7 +111,8 @@ class PacingCalendar {
       }
     }
 
-    var table = CreateElement.createTable('pacingCalendar', 'table table-hover table-condensed', headers, cells, cellhandlers);
+//    var table = CreateElement.createTable('pacingCalendar', 'table table-hover table-condensed', headers, cells, cellhandlers);
+    var table = CreateElement.createTable('pacingCalendar', null, headers, cells, cellhandlers);
     container.appendChild(table);
     if (this._highlightweek && highlightWeek != null) {
       var trNode = table.getElementsByTagName('tbody')[0].childNodes[highlightWeek];
