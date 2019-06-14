@@ -136,7 +136,8 @@ const app = function () {
 	// iframe responsive height - post message to parent (if in an iframe) to resizeBy
 	//-----------------------------------------------------------------------------------
 	function _postHeightChangeMessage() {
-		var msg = document.body.scrollHeight + '-' + 'PacingIndex' + '-' + settings.instance;
+		//var msg = document.body.scrollHeight + '-' + 'PacingIndex' + '-' + settings.instance;
+    var msg = page.infocontainer.scrollHeight + '-' + 'PacingIndex' + '-' + settings.instance;
 		console.log('posting to parent: ' + msg);
 		window.parent.postMessage(msg, "*");
 	}
