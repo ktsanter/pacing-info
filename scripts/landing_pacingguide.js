@@ -69,7 +69,6 @@ const app = function () {
     var container = CreateElement.createDiv(null, null);
     page.body.appendChild(container);
     container.style.display = 'inline-block';
-   
     page.notice = new StandardNotice(container, container);
   }
   

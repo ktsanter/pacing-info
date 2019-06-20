@@ -2,11 +2,11 @@
 //-----------------------------------------------------------------------------------
 // test driver for pacing info
 //-----------------------------------------------------------------------------------
-// TODO: determine base URL for full pacing guide
+// TODO: 
 //-----------------------------------------------------------------------------------
 
 const app = function () {
-  const appversion = '0.01';
+  const appversion = '0.02';
   const appname = 'pacing info (test driver)';
 	const page = {};
   const settings = {};

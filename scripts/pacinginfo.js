@@ -57,18 +57,26 @@ class PacingInfo {
     this._infocontainer.appendChild(navbarcontainer);
     this._infocontainer.appendChild(homecontainer);
     this._infocontainer.appendChild(announcecontainer);
-    this._infocontainer.appendChild(calendarcontainer);
-    this._infocontainer.appendChild(guidecontainer);
+    
+    homecontainer.appendChild(calendarcontainer);
+
+    announcecontainer.appendChild(guidecontainer);
     
     this._navbar.render(navbarcontainer);
 
     var calendarHandler = e => this._handleCalendarSelection(e);
     calendarcontainer.appendChild(new PacingCalendar(this._pacingCalendarData, this._term, this._pacingGuideData.ap, true, calendarHandler).render());
 
-    var elemTitle = CreateElement.createDiv('announcementsTitle', null, this._pacingGuideData.coursename + ' (week ' + this._weekNumber + ')');
-    announcecontainer.appendChild(elemTitle);
-    var handler = function (me, f) { return function(e) {me._handleOpenAnnouncementsInFullWindow(e);}} (this);
-    elemTitle.appendChild(CreateElement.createIcon('announcementsOpenIcon', 'fas fa-external-link-alt', 'open pacing info in full window', handler));
+    var title = CreateElement.createDiv('announcementsTitle', null, this._pacingGuideData.coursename + ' (week ' + this._weekNumber + ')');
+    announcecontainer.appendChild(title);
+    
+    var dropdownlabel = CreateElement.createDiv(null, 'dropdown-label', 'tasks');
+    title.appendChild(dropdownlabel);
+    
+    var handler = function (me, f) { return function(e) {me._handleOpenTaskList(e);}} (this);
+    dropdownlabel.appendChild(CreateElement.createIcon('dropdownOpenTaskList', 'fas fa-caret-square-up', 'open this week\'s task list', handler));
+    var handler = function (me, f) { return function(e) {me._handleCloseTaskList(e);}} (this);
+    dropdownlabel.appendChild(CreateElement.createIcon('dropdownCloseTaskList', 'fas fa-caret-square-down', 'close task list', handler));
 
     if (this._weekNumber > 0) {
       announcecontainer.appendChild(CreateElement.createIframe(
@@ -91,9 +99,7 @@ class PacingInfo {
     this._renderHomePage(homecontainer, this._pacingGuideData.ap);
 
     PacingInfo._showMe(homecontainer, this._weekNumber == 0);
-    PacingInfo._showMe(announcecontainer, this._weekNumber != 0);
-    PacingInfo._showMe(calendarcontainer, this._weekNumber == 0);
-    PacingInfo._showMe(guidecontainer, this._weekNumber != 0);    
+    PacingInfo._showMe(announcecontainer, this._weekNumber != 0);   
   }
 
   _createNavbar() {
@@ -123,10 +129,16 @@ class PacingInfo {
     container.style.minWidth = this._announcementsIframeWidth + 'px';
     container.style.minHeight = this._announcementsIframeHeight + 'px';
 
-    var elemTitle = CreateElement.createDiv('homepageTitle', null, this._pacingGuideData.coursename);
-    container.appendChild(elemTitle);
-    var handler = function (me, f) { return function(e) {me._handleOpenAnnouncementsInFullWindow(e);}} (this);
-    elemTitle.appendChild(CreateElement.createIcon('announcementsOpenIcon', 'fas fa-external-link-alt', 'open pacing info in full window', handler));
+    var title = CreateElement.createDiv('homepageTitle', null, this._pacingGuideData.coursename);
+    container.appendChild(title);
+    
+    var dropdownlabel = CreateElement.createDiv(null, 'dropdown-label', 'pacing calendar');
+    title.appendChild(dropdownlabel);
+    
+    var handler = function (me, f) { return function(e) {me._handleOpenPacingCalendar(e);}} (this);
+    dropdownlabel.appendChild(CreateElement.createIcon('dropdownOpenCalendar', 'fas fa-caret-square-up', 'open pacing calendar', handler));
+    var handler = function (me, f) { return function(e) {me._handleClosePacingCalendar(e);}} (this);
+    dropdownlabel.appendChild(CreateElement.createIcon('dropdownCloseCalendar', 'fas fa-caret-square-down', 'close pacing calendar', handler));
     
     var contents = CreateElement.createDiv('homepageContents', null);
     container.appendChild(contents);
@@ -180,6 +192,30 @@ class PacingInfo {
     }
     
     return weeks;
+  }
+  
+  _showPacingCalendar() {
+    document.getElementById('dropdownOpenCalendar').style.display = 'none';
+    document.getElementById('dropdownCloseCalendar').style.display = 'inline-block';
+    document.getElementById('containerCalendar').style.display = 'inline-block';
+  }
+  
+  _hidePacingCalendar() {
+    document.getElementById('dropdownOpenCalendar').style.display = 'inline-block';
+    document.getElementById('dropdownCloseCalendar').style.display = 'none';
+    document.getElementById('containerCalendar').style.display = 'none';
+  }
+  
+  _showTaskList() {
+    document.getElementById('dropdownOpenTaskList').style.display = 'none';
+    document.getElementById('dropdownCloseTaskList').style.display = 'inline-block';
+    document.getElementById('containerGuide').style.display = 'inline-block';
+  }
+  
+  _hideTaskList() {
+    document.getElementById('dropdownOpenTaskList').style.display = 'inline-block';
+    document.getElementById('dropdownCloseTaskList').style.display = 'none';
+    document.getElementById('containerGuide').style.display = 'none';
   }
   
   static _makeLinkToAnnouncementsPage(baseAnnouncementsLink, pageNumber) {
@@ -251,6 +287,23 @@ class PacingInfo {
     var url = this._baseURLForFullPacingGuide;
     url += '?coursekey=' + this._coursekey;
     url += '&term=' + this._shortTerm;
+    console.log(url);
     window.open(url, '_blank');
+  }
+  
+  _handleOpenPacingCalendar() {
+    this._showPacingCalendar()
+  }
+
+  _handleClosePacingCalendar() {
+    this._hidePacingCalendar();
+  }
+
+  _handleOpenTaskList() {
+    this._showTaskList();
+  }
+
+  _handleCloseTaskList() {
+    this._hideTaskList();
   }
 }

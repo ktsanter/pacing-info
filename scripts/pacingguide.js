@@ -148,6 +148,7 @@ class PacingGuide {
 	// handlers
 	//------------------------------------------------------------------    
   _handleOpenInFullWindow(e) {
+    console.log('beep');
     this._fullWindowCallback();
   }
 }
