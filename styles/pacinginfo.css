@@ -9,7 +9,6 @@
   display: none;
   position: relative;
   vertical-align: text-top;  
-  font-size: 0.9em;
   background-color: white;
   margin-right: 0.6em;
   margin-top: -0.25em;
@@ -37,7 +36,7 @@
   display: none;
   position: absolute;
   z-index: 1;
-  top: 2.2em;
+  top: 2.3em;
   right: 0.0em;
   filter: drop-shadow(5px 5px 5px #777); 
 }
@@ -46,7 +45,7 @@
   display: none;
   position: absolute;
   z-index: 1;
-  top: 1.6em;
+  top: 2.0em;
   right: 0em;
   filter: drop-shadow(5px 5px 5px #777);
 }
@@ -162,8 +161,7 @@
 
 /*-- home page --*/
 #homepageTitle {
-  font-size: 1.0em;
-  font-weight: bold;
+  font-size: 1.1em;
   border-radius: 8px 8px 0px 0px;
   color: white;
   background-color: #093c44;
@@ -190,9 +188,7 @@
 
 /*-- announcements --*/
 #announcementsTitle {
-  font-size: 0.9em;
-  font-weight: bold;
-  /*margin-bottom: 0.4em;*/
+  font-size: 1.1em;
   border-radius: 8px 8px 0px 0px;
   color: white;
   background-color: #093c44;
@@ -220,16 +216,13 @@
 
 /*-- pacing guide --*/
 .guide-container {
-  font-size: 0.9em;
   display: inline-block;
   background-color: white;
   border-radius: 8px 8px 0px 0px;
 }
 
 .guide-label {
-  font-size: 1.0em;
   font-weight: bold;
-  /*margin-bottom: 0.4em;*/
   border-radius: 8px 8px 0px 0px;
   color: white;
   background-color: #115e6e;
@@ -244,7 +237,6 @@
 }
 
 #pacingGuide {
-  font-size: 1.0em;
   border-collapse: collapse;
   border: 1px solid #ccc;
 }
@@ -300,16 +292,13 @@
 
 /*-- pacing calender --*/
 .calendar-container {
-  font-size: 0.9em;
   display: inline-block;
   background-color: white;
   border-radius: 8px 8px 0px 0px;
 }
 
 .calendar-label {
-  font-size: 1.0em;
   font-weight: bold;
-  /*margin-bottom: 0.4em;*/
   border-radius: 8px 8px 0px 0px;
   color: white;
   background-color: #115e6e;
@@ -317,7 +306,6 @@
 }
 
 #pacingCalendar {
-  font-size: 1.0em;
   border-collapse: collapse;
   border: 1px solid #ccc;
 }
@@ -352,7 +340,7 @@
 }
 
 .highlightweek {
-  background-color: lightblue;
+  background-color: lightblue !important;
   font-weight: bold;
 }
 
