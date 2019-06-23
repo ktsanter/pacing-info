@@ -34,16 +34,14 @@ const app = function () {
 	// get things going
 	//----------------------------------------
   async function init() {
-    
 		page.body = document.getElementsByTagName('body')[0];
-
     _renderStandardElements();
 
     var expectedQueryParams = [
       {key: 'coursekey', required: true},
       {key: 'term', required: true},
       {key: 'announcements', required: true},
-      {key: 'instance', require: false}
+      {key: 'instance', required: false}
     ];
         
     if (_initializeSettings(expectedQueryParams)) {

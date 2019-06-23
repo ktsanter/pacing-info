@@ -13,8 +13,8 @@
   margin-right: 0.6em;
   margin-top: -0.25em;
   border-radius: 8px 8px 0px 0px;
-  min-width: 800px;
-  min-height: 600px;
+  min-width: 692px; /*800px;*/
+  min-height: 519px; /*600px;*/
   border: 1px solid #ccc;
 }
 

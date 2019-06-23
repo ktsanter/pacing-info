@@ -27,8 +27,8 @@ class PacingInfo {
       summer: { termtype: "summer", displayname: "summer" }
     };
     
-    PacingInfo._announcementsIframeWidth = 800;
-    PacingInfo._announcementsIframeHeight = 600;
+    PacingInfo._announcementsIframeWidth = 692//800;
+    PacingInfo._announcementsIframeHeight = 519//600;
   
     PacingInfo._pacingIndexMenuLink = 'https://drive.google.com/open?id=172L_BNdFQ90jsBvfFTMaeiQ1jP3zGgsQ';
     PacingInfo._pacingIndexMenuLinkAP = 'https://drive.google.com/open?id=11qDWqfUHmJK_oZV0EXkuXAv14euIwjMd';
