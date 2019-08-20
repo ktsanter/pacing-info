@@ -46,7 +46,10 @@ const app = function () {
       digital_literacy: 'Digital Literacy & Programming',
       fpa: 'Foundations of Programming A',
       fpb: 'Foundations of Programming B',
-      american_litB: 'American Literature B'
+      american_litB: 'American Literature B',
+      java_a: 'Java Programming A',
+      js_game_design: 'JavaScript Game Design',
+      procprog: 'Procedural Programming'
     };
     
     settings.courselist = await _loadPacingGuideCourseList();
