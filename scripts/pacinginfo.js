@@ -32,7 +32,7 @@ class PacingInfo {
   
     PacingInfo._pacingIndexMenuLink = 'https://drive.google.com/open?id=172L_BNdFQ90jsBvfFTMaeiQ1jP3zGgsQ';
     PacingInfo._pacingIndexMenuLinkAP = 'https://drive.google.com/open?id=11qDWqfUHmJK_oZV0EXkuXAv14euIwjMd';
-    PacingInfo._pacingIndexMenuImage = 'https://drive.google.com/uc?id=172L_BNdFQ90jsBvfFTMaeiQ1jP3zGgsQ';
+    PacingInfo._pacingIndexMenuImage = 'https://drive.google.com/uc?id=1HbV-8QV0NMgB8uM76ZudlixvebM5Sfgj'; //'https://drive.google.com/uc?id=172L_BNdFQ90jsBvfFTMaeiQ1jP3zGgsQ';
     PacingInfo._pacingIndexMenuImageAP = 'https://drive.google.com/uc?id=11qDWqfUHmJK_oZV0EXkuXAv14euIwjMd';
     PacingInfo._pacingIndexFindingEndDateLink = 'https://drive.google.com/open?id=1HIl_0nFL3-9lOJ-cl3KMiOKaU0Lcsvpe';
     PacingInfo._pacingIndexFindingEndDateImage = 'https://drive.google.com/uc?id=1HIl_0nFL3-9lOJ-cl3KMiOKaU0Lcsvpe';
