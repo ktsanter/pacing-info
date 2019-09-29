@@ -89,7 +89,7 @@ class PacingInfo {
       ));
       
       var mask = CreateElement.createDiv('announcementsMask', null);
-      announcecontainer.appendChild(mask);
+//      announcecontainer.appendChild(mask);
       mask.style.width = PacingInfo._announcementsIframeWidth + 'px';
       mask.style.height = PacingInfo._announcementsIframeHeight + 'px';
     }
